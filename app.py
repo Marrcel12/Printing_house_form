@@ -24,6 +24,7 @@ def products(url):
         materials=[['PAPIER 150g', 'Idealny do drukowania plakató lub ulotek (druk jednostronny)'],['PAPIER 200g','Idealny do drukowania dyplomów']]
     if product == 'flag':
         materials=['POLIESTER 115g',['POLYFLAG','Idealny do zastosowania w miejscach o dużym nasileniu wiatru']]
+    
     return render_template('products.html',product=product,materials=materials )
 
 @app.route('/products/materials/<url>')

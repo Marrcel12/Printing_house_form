@@ -11,9 +11,9 @@
     <h2>Materials</h2>
     {% for i in materials %}
     {% if i|length==2 %}
-    <a href='material/{{i[0]}}'><input type='button' value='{{i}}'></a>
+    <a href='materials/{{i[0]}}'><input type='button' value='{{i}}'></a>
     {% else %}
-    <a href='material/{{i}}'><input type='button' value='{{i}}'s></a>
+    <a href='materials/{{i}}'><input type='button' value='{{i}}'s></a>
     {% endif %}
     {% endfor %}
 </body>
