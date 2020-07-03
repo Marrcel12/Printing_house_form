@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from test import SignUpForm
 app = Flask(__name__)
 app.config['SECRET_KEY']= 'qaz123'
+app.config['TEMPLATES_AUTO_RELOAD'] = "True"
 
 @app.route('/')
 def hello_world():
@@ -27,6 +28,8 @@ def products(url):
     
     return render_template('products.html',product=product,materials=materials )
 
-@app.route('/products/materials/<url>')
+@app.route('/products/materials/<url>' )
 def materials(url):
-    pass
+    return(url)
+
+app.run()

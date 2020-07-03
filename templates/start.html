@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form-start</title>
+    <title>Drukarnia- wybierz produkt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/start.css') }}">
 </head> 
 <body>
-    <a href='products/baner'><input type='button' value='Baner reklamowy'></a>
-    <a href='products/sticker'><input type='button' value='Naklejka lub magnez'></a>
-    <a href='products/pad'><input type='button' value='Dywan i podkladka'></a>
-    <a href='products/poster'><input type='button' value='Plakat i dyplom'></a>
-    <a href='products/flag'><input type='button' value='Flaga pozioma'></a>
+    <header>
+        <h2>Bodyfit</h2>
+    </header>
+    <div id="main">
+        <h3>Wybierz jaki produkt chcesz u nas wydrukować</h3>
+        <a href='products/baner'><input type='button' value='Baner reklamowy'></a>
+        <a href='products/sticker'><input type='button' value='Naklejka lub magnez'></a>
+        <a href='products/pad'><input type='button' value='Dywan i podkladka'></a>
+        <a href='products/poster'><input type='button' value='Plakat i dyplom'></a>
+        <a href='products/flag'><input type='button' value='Flaga pozioma'></a>
+    </div>
+    <div id="progressBar">
+        <div class="progressed">Produkt</div>
+        <div>Materiał</div>
+        <div>Wykończenie</div>
+        <div>Rozmiar</div>
+        <div>Plik</div>
+        <div>Dane</div>
+    </div>
 </body>
 </html>

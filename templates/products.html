@@ -4,18 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form-start</title>
+    <title>Drukarnia- wybierz materiał</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+
 </head>
 
 <body>
-    <h2>Materials</h2>
-    {% for i in materials %}
-    {% if i|length==2 %}
-    <a href='materials/{{i[0]}}'><input type='button' value='{{i}}'></a>
-    {% else %}
-    <a href='materials/{{i}}'><input type='button' value='{{i}}'s></a>
-    {% endif %}
-    {% endfor %}
+    <header>
+        <h2>Bodyfit</h2>
+    </header>
+    <div id="main">
+        <h2>Materials</h2>
+        {% for i in materials %}
+        {% if i|length==2 %}
+        <a href='materials/{{i[0]}}'><input type='button' value='{{i}}'></a>
+        {% else %}
+        <a href='materials/{{i}}'><input type='button' value='{{i}}'s></a>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <div id="progressBar">
+        <div class="progressed">Produkt</div>
+        <div class="progressed">Materiał</div>
+        <div>Wykończenie</div>
+        <div>Rozmiar</div>
+        <div>Plik</div>
+        <div>Dane</div>
+    </div>
+    
 </body>
 
 </html>
