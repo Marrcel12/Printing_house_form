@@ -7,16 +7,25 @@ app.config['SECRET_KEY']= 'qaz123'
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/test', methods= ['GET','POST'])
+@app.route('/start')
 def test():
-    form=SignUpForm()
-    if form.is_submitted():
-        result= request.form
-        print("resss")
-        print(result)
-    return render_template('start.html',form=form)
+    return render_template('start.html')
 
-@app.route('/product/<url>')
-def product(url):
-    print(url)
-    return 'Hello, World!'
+@app.route('/products/<url>')
+def products(url):
+    product=url
+    if product == 'baner':
+        materials=[['FRONTLIT',"Idealny do zastosowania na zewnątrz"],['MESH (SIATKA)','Idealny do zastosowania na zewnątrz, na dużych powierzchniach lub miejscach o dużym nasileniu wiatru'],['BLOCKOUT', 'Idealny do wyeksponowania oferty po dwóch stronach baneru'],['POLIESTER 205g','Idealny do zastosowania wewnątrz'],['Poliester 115g','Idealny do zastosowania wewnątrz i do flag']]
+    if product == 'sticker':
+        materials=[['FOLIA BłYSZCZĄCA'],['FOLIA MATOWA'],['EASY DOT', "Folia umożliwiająca przeniesienie wydruku w inne miejsce bez utraty właściwości klejących materiału"], ["MAGNEZ BŁYSZCZĄCY"]]
+    if product == 'pad':
+        materials=[['DYWAN','Idealny do zastosowania np. jako wycieraczka'],['FLOORPROMOTOR','Idealny do zastosowania np. jako podkładka pod myszkę']]
+    if product == 'poster':
+        materials=[['PAPIER 150g', 'Idealny do drukowania plakató lub ulotek (druk jednostronny)'],['PAPIER 200g','Idealny do drukowania dyplomów']]
+    if product == 'flag':
+        materials=['POLIESTER 115g',['POLYFLAG','Idealny do zastosowania w miejscach o dużym nasileniu wiatru']]
+    return render_template('products.html',product=product,materials=materials )
+
+@app.route('/products/materials/<url>')
+def materials(url):
+    pass

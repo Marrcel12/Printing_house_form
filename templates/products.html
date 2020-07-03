@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form-start</title>
+</head>
+
+<body>
+    <h2>Materials</h2>
+    {% for i in materials %}
+    {% if i|length==2 %}
+    <a href='material/{{i[0]}}'><input type='button' value='{{i}}'></a>
+    {% else %}
+    <a href='material/{{i}}'><input type='button' value='{{i}}'s></a>
+    {% endif %}
+    {% endfor %}
+</body>
+
+</html>
