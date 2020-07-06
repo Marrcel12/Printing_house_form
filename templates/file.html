@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <title>Form-start</title>
+</head>
+
+<body>
+    <header>
+        <h2>Plik</h2>
+    </header>
+    <div id="main">
+        <form action="javascript:void(0);">
+            <h3>Dołącz plik który mamy wydrukować</h3>
+            <input id="plik" type="File" placeholder="Dodaj załącznik">
+            <h4>Lub wklej link z plikiem</h4>
+            <input id="link" type="url" placeholder="Wklej link" vakue="">
+            <hr>
+            <input type="checkbox" id="req" required><strong>(wymagane)</strong> jestem świadom jakości wysyłanego przeze mnie pliku i tego, że przez napisy i loga umieszczone w projekcie nie dalej jak 4cm od krawędzi mogą przejść szycia
+            <br>
+            <input id="project" type="checkbox">chcę, byście wykonali za mnie projekt (dodatkowo 200PLN)
+            <br>
+            <button type="submit" onclick=(send())>Dalej</button>
+        </form>
+
+
+    </div>
+    <div id="progressBar">
+        <div class="progressed">Produkt</div>
+        <div class="progressed">Materiał</div>
+        <div class="progressed">Wykończenie</div>
+        <div class="progressed">Rozmiar</div>
+        <div class="progressed">Plik</div>
+        <div>Dane</div>
+    </div>
+    <script>
+        function convertToHex(str) {
+            var hex = '';
+            for (var i = 0; i < str.length; i++) {
+                hex += '' + str.charCodeAt(i).toString(16);
+            }
+            return hex;
+        }
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+
+        function send() {
+            if (document.getElementById("req").checked == true) {
+                if (document.getElementById('link').value == "") {
+                    toBase64(document.getElementById("plik").files[0]).then(function(value) {
+                        var base = value
+                        base = base.replace(/\//g, "?")
+                        base =base.replace(/\+/g, "_")
+                        base =base.replace(/\=/g, "-")
+                        location.assign("data/" + document.getElementById("project").checked+"!p!"+base)
+
+                    })
+
+                } else {
+                    var plik = document.getElementById('link').value
+                    console.log(convertToHex(plik))
+                    location.assign("data/"+ document.getElementById("project").checked+"!l!"+convertToHex(plik))
+
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>
