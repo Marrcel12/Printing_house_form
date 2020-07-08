@@ -1,6 +1,26 @@
 from flask import Flask, render_template, request,session
 from test import SignUpForm
 import base64
+import psycopg2
+
+def bazkie_produkty(sql):
+    conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    cur = conn.cursor()
+    cur.execute(sql)
+    rows = cur.fetchall()
+    products=[]
+    for row in rows:
+        products.append(row[0])
+    conn.close()
+    return products
+def bazkie_produkty_route(sql,product):
+    sql= sql.replace('itemname',product)
+    conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    cur = conn.cursor()
+    cur.execute(sql)
+    rows = cur.fetchall()
+    return rows
+
 app = Flask(__name__)
 app.config['SECRET_KEY']= 'qaz123'
 app.config['TEMPLATES_AUTO_RELOAD'] = "True"
