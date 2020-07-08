@@ -1,16 +1,28 @@
 from flask import Flask, render_template, request, session
 from test import SignUpForm
+import psycopg2
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'qaz123'
 app.config['TEMPLATES_AUTO_RELOAD'] = 'True'
-# root products
-products_root={"Baner reklamowy":[['FRONTLIT', 'Idealny do zastosowania na zewnątrz'], ['MESH (SIATKA)', 'Idealny do zastosowania na zewnątrz, na dużych powierzchniach lub miejscach o dużym nasileniu wiatru'], [
-            'BLOCKOUT', 'Idealny do wyeksponowania oferty po dwóch stronach baneru'], ['POLIESTER 205g', 'Idealny do zastosowania wewnątrz'], ['Poliester 115g', 'Idealny do zastosowania wewnątrz i do flag']], "Naklejka lub magnez":[['FOLIA BłYSZCZĄCA'], ['FOLIA MATOWA'], [
-            'EASY DOT', 'Folia umożliwiająca przeniesienie wydruku w inne miejsce bez utraty właściwości klejących materiału'], ['MAGNEZ BŁYSZCZĄCY']]
-    , "Dywan i podkladka":[['DYWAN', 'Idealny do zastosowania np. jako wycieraczka'], [
-            'FLOORPROMOTOR', 'Idealny do zastosowania np. jako podkładka pod myszkę']],"Plakat i dyplom":[['PAPIER 150g', 'Idealny do drukowania plakató lub ulotek (druk jednostronny)'], [
-            'PAPIER 200g', 'Idealny do drukowania dyplomów']],"Flaga pozioma":['POLIESTER 115g', [
-            'POLYFLAG', 'Idealny do zastosowania w miejscach o dużym nasileniu wiatru']}
+def bazkie_produkty(sql):
+    conn = psycopg2.connect(database="Print_house", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    cur = conn.cursor()
+    cur.execute(sql)
+    rows = cur.fetchall()
+    products=[]
+    for row in rows:
+        products.append(row[0])
+    conn.close()
+    return products
+def bazkie_produkty_route(sql,product):
+    sql= sql.replace('itemname',product)
+    conn = psycopg2.connect(database="Print_house", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    cur = conn.cursor()
+    cur.execute(sql)
+    rows = cur.fetchall()
+    return rows
+print(bazkie_produkty('select name from public."Produkty"'))
+print(bazkie_produkty_route(' select "Produkty".name as name_produkty,"Material".name as name_material, "Wykonczenie".name as name_wykonczenie,"Material".name as name_material, "Material".opis as opis_material, "Wykonczenie".opis as opis_wykonczenie from public."Produkty_Material" inner join "Produkty" ON  "Produkty".id = public."Produkty_Material"."Produkty_id" inner join "Material" ON public."Produkty_Material"."Material_id" ="Material".id inner join public."Material_Wykonczenie" ON public."Material_Wykonczenie".id_material="Material".id inner join public."Wykonczenie" on public."Wykonczenie".id  = public."Material_Wykonczenie".id_wykonczenie inner join public."Wykonczenie_Model" on public."Wykonczenie_Model".id_wykonczenie = public."Wykonczenie".id inner join public."Model" on public."Model".id = public."Wykonczenie_Model".id_model where "Produkty".name =''itemname'';',"'Baner reklamowy'"))
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
@@ -18,9 +30,7 @@ def hello_world():
 
 @app.route('/start')
 def start():
-    global products_root
-    print(products_root)
-    return render_template('start.html', products = products_root.keys())
+    return render_template('start.html')
 
 
 @app.route('/products/<url>')

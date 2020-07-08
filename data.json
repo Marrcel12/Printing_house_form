@@ -1,0 +1,172 @@
+{
+    "Produkt": {
+      "Baner reklamowy": [
+        {
+          "Material": [
+            [
+              {
+                "FRONTLIT": [
+                  "ZGRZEW",
+                  "DOCIĘTE NA WYMIAR"
+                ],
+                "FRONTLIT_Opis": "Idealny do zastosowania na zewnątrz"
+              }
+            ],
+            [
+              {
+                "MESH (SIATKA)": [
+                  "ZGRZEW + OCZKA"
+                ],
+                "MESH (SIATKA)_OPIS": "Idealny do zastosowania na zewnątrz, na dużych powierzchniach lub miejscach o dużym nasileniu wiatru"
+              }
+            ],
+            [
+              {
+                "BLOCKOUT": [
+                  "DOCIĘTE NA WYMIAR"
+                ],
+                "BLOCKOUT_OPIS": "Idealny do wyeksponowania oferty po dwóch stronach baneru"
+              }
+            ],
+            [
+              {
+                "POLIESTER 205g": [
+                  "OBSZYCIE"
+                ],
+                "POLIESTER 205g_Opis": "Idealny do zastosowania wewnątrz"
+              }
+            ],
+            [
+              {
+                "Poliester 115g": "Idealny do zastosowania wewnątrz i do flag"
+              }
+            ]
+          ],
+          "Wykonczenie_Model": "Tom",
+          "lastName": "Cruise",
+          "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+        }
+      ],
+      "Naklejka lub magnes": [
+        {
+          "Material": [
+            [
+              "FOLIA BłYSZCZĄCA"
+            ],
+            [
+              "FOLIA MATOWA"
+            ],
+            [
+              "EASY DOT",
+              "Folia umożliwiająca przeniesienie wydruku w inne miejsce bez utraty właściwości klejących Materialu"
+            ],
+            [
+              "MAGNEZ BŁYSZCZĄCY"
+            ]
+          ],
+          "firstName": "Tom",
+          "lastName": "Cruise",
+          "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+        }
+      ],
+      "Dywan i podkładka ": [
+        {
+          "Material": [
+            [
+              "DYWAN",
+              "Idealny do zastosowania np. jako wycieraczka"
+            ],
+            [
+              "FLOORPROMOTOR",
+              "Idealny do zastosowania np. jako podkładka pod myszkę"
+            ]
+          ],
+          "firstName": "Tom",
+          "lastName": "Cruise",
+          "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+        }
+      ],
+      "Plakat i dyplom": [
+        {
+          "Material": [
+            [
+              "PAPIER 150g",
+              "Idealny do drukowania plakató lub ulotek (druk jednostronny)"
+            ],
+            [
+              "PAPIER 200g",
+              "Idealny do drukowania dyplomów"
+            ]
+          ],
+          "firstName": "Tom",
+          "lastName": "Cruise",
+          "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+        }
+      ],
+      "Flaga Pozioma": [
+        {
+          "Material": [
+            "POLIESTER 115g",
+            [
+              "POLYFLAG",
+              "Idealny do zastosowania w miejscach o dużym nasileniu wiatru"
+            ]
+          ],
+          "firstName": "Tom",
+          "lastName": "Cruise",
+          "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+        }
+      ],
+      "Beachflaga": [
+        {
+          "Material": [
+            "POLIESTER 115g",
+            [
+              "POLYFLAG",
+              "Idealny do zastosowania w miejscach o dużym nasileniu wiatru"
+            ]
+          ],
+          "firstName": "Tom",
+          "lastName": "Cruise",
+          "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+        }
+      ],
+      "Roll up": [
+        {
+          "Material": [
+            "POLIESTER 205g"
+          ],
+          "firstName": "Tom",
+          "lastName": "Cruise",
+          "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+        }
+      ],
+      "Poduszki": [
+        {
+          "Material": [
+            [
+              "POLIESTER 205g",
+              "Material przy któym poduszka jest matowa"
+            ],
+            [
+              "SATYNA",
+              "Material nadający poduszcze błysk"
+            ]
+          ],
+          "firstName": "Tom",
+          "lastName": "Cruise",
+          "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+        }
+      ],
+      "Obraz na ramę": [
+        {
+          "Material": [
+            "CANVAS"
+          ],
+          "firstName": "Tom",
+          "lastName": "Cruise",
+          "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+        }
+      ]
+    }
+  }
