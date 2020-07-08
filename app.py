@@ -80,6 +80,7 @@ def data(url):
         plik = urlSplitted[2]
 
     session["file"] = plik
-    return render_template('data.html')
+    print(session['file'], "kappa")
+    return render_template('data.html', plik = plik)
 
 app.run()
