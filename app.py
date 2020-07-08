@@ -30,23 +30,26 @@ def hello_world():
 
 @app.route('/start')
 def start():
-    return render_template('start.html')    
+    products= bazkie_produkty('select name from public."Produkty"')
+    return render_template('start.html', products=products)    
 
 @app.route('/products/<url>')
 def products(url):
     
-    product=url
-    session["product"] = product 
+    produkt=url
+    session["product"] = produkt
+    details = bazkie_produkty_route(sql,produkt)
 
-    if product == 'baner':
+    if product == 'Baner reklamowy':
+        print(product)
         materials=[['FRONTLIT',"Idealny do zastosowania na zewnątrz"],['MESH (SIATKA)','Idealny do zastosowania na zewnątrz, na dużych powierzchniach lub miejscach o dużym nasileniu wiatru'],['BLOCKOUT', 'Idealny do wyeksponowania oferty po dwóch stronach baneru'],['POLIESTER 205g','Idealny do zastosowania wewnątrz'],['Poliester 115g','Idealny do zastosowania wewnątrz i do flag']]
-    if product == 'sticker':
+    if product == 'Naklejka lub magnes':
         materials=[['FOLIA BłYSZCZĄCA'],['FOLIA MATOWA'],['EASY DOT', "Folia umożliwiająca przeniesienie wydruku w inne miejsce bez utraty właściwości klejących materiału"], ["MAGNEZ BŁYSZCZĄCY"], ["MAGNES MATOWY"]]
-    if product == 'pad':
+    if product == 'Dywan i podkładka':
         materials=[['DYWAN','Idealny do zastosowania np. jako wycieraczka'],['FLOORPROMOTOR','Idealny do zastosowania np. jako podkładka pod myszkę']]
-    if product == 'poster':
+    if product == 'Plakat i dyplom':
         materials=[['PAPIER 150g', 'Idealny do drukowania plakató lub ulotek (druk jednostronny)'],['PAPIER 200g','Idealny do drukowania dyplomów']]
-    if product == 'flag':
+    if product == 'Flaga pozioma':
         materials=['POLIESTER 115g',['POLYFLAG','Idealny do zastosowania w miejscach o dużym nasileniu wiatru']]
     
     return render_template('products.html',product=product,materials=materials )
