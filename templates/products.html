@@ -17,9 +17,9 @@
         <h2>Materials</h2>
         {% for i in materials %}
         {% if i|length==2 %}
-        <a href='materials/{{i[0]}}'><input type='button' value='{{i}}'></a>
+        <a href='materials/{{i[0]}}'><span class='desc'>{{i[1]}}</span><br><input type='button' value='{{i[0]}}'></a>
         {% else %}
-        <a href='materials/{{i}}'><input type='button' value='{{i}}'s></a>
+        <a href='materials/{{i}}'><span class='desc'>{{i[1]}}</span><br><input type='button' value='{{i[0]}}'s></a>
         {% endif %}
         {% endfor %}
     </div>
@@ -31,7 +31,14 @@
         <div>Plik</div>
         <div>Dane</div>
     </div>
-    
+    <script>
+        var temp =document.getElementsByClassName('desc').length
+        for(i=0; i<temp; i++){
+            if(document.getElementsByClassName('desc')[i].innerHTML== "None"){
+                document.getElementsByClassName('desc')[i].innerHTML=""
+            }
+        }
+    </script>
 </body>
 
 </html>
