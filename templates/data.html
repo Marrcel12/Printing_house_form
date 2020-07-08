@@ -1,18 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drukarnia- wybierz produkt</title>
+    <title>Drukarnia- dane</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/start.css') }}">
-</head> 
+</head>
+
 <body>
     <header>
         <h2>Bodyfit</h2>
     </header>
     <div id="main">
-        <h3>Dane</h3>
+        <h2>Formularz zamówienia</h2>
+        <span>Administratorem Twoich danych osobowych podanych w formularzu jest Robert Ruszkiewicz, prowadzący działalność gospodarczą pod firmą "Robert Ruszkiewicz”, ul. Jodłowa 14, 72-100 Goleniów, NIP: 8561766212. Szczegóły związane z przetwarzaniem danych osobowych znajdują się w polityce prywatności.</span>
+        <form action="javascript:void(0);">
+            <h3>Podaj imię i nazwisko</h3>
+            <input type="text" id="nameSurname" placeholder="Imię i nazwisko" required>
+            <h3>Nazwa firmy</h3>
+            <input type="text" id="companyName" placeholder="Firma">
+            <h3>Adres</h3>
+            <input type="text" id="city" placeholder="Miasto" required>
+            <input type="text" id="postalCode" placeholder="Kod pocztowy" required>
+            <input type="text" id="street" placeholder="Ulica i numer" required>
+            <br>
+            <input type="checkbox" id="regulamin" required>Zapoznałem się z regulaminem i polityką prywatności.
+            <br>
+            <input type="checkbox" id="newsletter">Wyrażam dobrowolną zgodę na przetwarzanie podanych przeze mnie danych osobowych przez Roberta Ruszkiewicza prowadzącego działalność pod firmą Robert Ruszkiewicz z siedzibą ul. Jodłowa 14, 72-100 Goleniów (NIP: 8561766212) w celach marketingowych, w tym w celu realizacji usługi wysyłania Newslettera na podany przeze mnie adres e-mail. Więcej informacji w polityce prywatności.
+            <br>
+            <button type="submit" onclick=(send())>Wyślij</button>
+        </form>
     </div>
     <div id="progressBar">
         <div class="progressed">Produkt</div>
@@ -20,7 +39,22 @@
         <div class="progressed">Wykończenie</div>
         <div class="progressed">Rozmiar</div>
         <div class="progressed">Plik</div>
-        <div class="progressed">Dane</div>
+        <div>Dane</div>
     </div>
+    <script>
+        function send() {
+            var name = document.getElementById("nameSurname").value
+            var company = document.getElementById("companyName").value
+            var city = document.getElementById("city").value
+            var code = document.getElementById("postalCode").value
+            var street = document.getElementById("street").value
+            var agreement = document.getElementById("regulamin").checked
+            var newsletter = document.getElementById("newsletter").checked
+            if (name != "" && company != "" && city != "" && code != "" && street != "" && agreement == true) {
+                location.assign('submit/'+name+'!'+company+'!'+city+'!'+code+'!'+street+'!'+newsletter)
+            }
+        }
+    </script>
 </body>
+
 </html>

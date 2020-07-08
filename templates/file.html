@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
-    <title>Form-start</title>
+    <title>Drukarnia- wybierz plik</title>
 </head>
 
 <body>
@@ -14,9 +14,11 @@
     </header>
     <div id="main">
         <form action="javascript:void(0);">
+<!--
             <h3>Dołącz plik który mamy wydrukować</h3>
             <input id="plik" type="File" placeholder="Dodaj załącznik">
-            <h4>Lub wklej link z plikiem</h4>
+-->
+            <h4>Wklej link z plikiem</h4>
             <input id="link" type="url" placeholder="Wklej link" vakue="">
             <hr>
             <input type="checkbox" id="req" required><strong>(wymagane)</strong> jestem świadom jakości wysyłanego przeze mnie pliku i tego, że przez napisy i loga umieszczone w projekcie nie dalej jak 4cm od krawędzi mogą przejść szycia
@@ -33,7 +35,7 @@
         <div class="progressed">Materiał</div>
         <div class="progressed">Wykończenie</div>
         <div class="progressed">Rozmiar</div>
-        <div class="progressed">Plik</div>
+        <div>Plik</div>
         <div>Dane</div>
     </div>
     <script>

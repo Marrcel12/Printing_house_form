@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
-    <title>Form-start</title>
+    <title>Drukarnia- wybierz rozmiar</title>
 </head>
 
 <body>
@@ -23,9 +23,9 @@
         {% endfor %}
         {% endif %}
         {%if sizing=='0'%}
-        <input type="number" placeholder="Szerokość(cm)" id="wid">
-        <input type="number" placeholder="Wysokość(cm)" id="hei">
-        <input type="number" placeholder="Ilość sztuk" id="qua">
+        <input type="number" placeholder="Szerokość(cm)" id="wid" required>
+        <input type="number" placeholder="Wysokość(cm)" id="hei" required>
+        <input type="number" placeholder="Ilość sztuk" id="qua" required>
         <button onclick=(calPrice())>Wylicz cenę</button>
         <p class="price">Cena: <span id="price">0</span>zł</p>
         <br>
@@ -36,7 +36,7 @@
         <div class="progressed">Produkt</div>
         <div class="progressed">Materiał</div>
         <div class="progressed">Wykończenie</div>
-        <div class="progressed">Rozmiar</div>
+        <div>Rozmiar</div>
         <div>Plik</div>
         <div>Dane</div>
     </div>

@@ -60,7 +60,7 @@ def methods(url):
         sizing = ['220x20', '300x30']
     return render_template('size.html', sizing=sizing)
 
-@app.route('/products/materials/methods/file/<url>')
+@app.route('/products/materials/methods/file/<url>', methods=['GET','POST'])
 def file(url):
     size = url.split('!')[0]
     quantity = url.split('!')[1]
@@ -82,5 +82,10 @@ def data(url):
     session["file"] = plik
     print(session['file'], "kappa")
     return render_template('data.html', plik = plik)
+@app.route('/products/materials/methods/file/data/submit/<url>')
+def submit(url):
+    urlSplitted = url.split("!")
+    print(urlSplitted)
+    return render_template('submit.html')
 
 app.run()
