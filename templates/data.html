@@ -50,7 +50,7 @@
             var street = document.getElementById("street").value
             var agreement = document.getElementById("regulamin").checked
             var newsletter = document.getElementById("newsletter").checked
-            if (name != "" && company != "" && city != "" && code != "" && street != "" && agreement == true) {
+            if (name != "" && city != "" && code != "" && street != "" && agreement == true) {
                 location.assign('submit/'+name+'!'+company+'!'+city+'!'+code+'!'+street+'!'+newsletter)
             }
         }
