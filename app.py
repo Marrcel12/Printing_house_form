@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'qaz123'
 app.config['TEMPLATES_AUTO_RELOAD'] = 'True'
 def bazkie_produkty(sql):
-    conn = psycopg2.connect(database="Print_house", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
     cur = conn.cursor()
     cur.execute(sql)
     rows = cur.fetchall()
@@ -16,13 +16,13 @@ def bazkie_produkty(sql):
     return products
 def bazkie_produkty_route(sql,product):
     sql= sql.replace('itemname',product)
-    conn = psycopg2.connect(database="Print_house", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
     cur = conn.cursor()
     cur.execute(sql)
     rows = cur.fetchall()
     return rows
 print(bazkie_produkty('select name from public."Produkty"'))
-    print(bazkie_produkty_route(' select "Produkty".name as name_produkty,"Material".name as name_material, "Wykonczenie".name as name_wykonczenie,"Material".name as name_material, "Material".opis as opis_material, "Wykonczenie".opis as opis_wykonczenie from public."Produkty_Material" inner join "Produkty" ON  "Produkty".id = public."Produkty_Material"."Produkty_id" inner join "Material" ON public."Produkty_Material"."Material_id" ="Material".id inner join public."Material_Wykonczenie" ON public."Material_Wykonczenie".id_material="Material".id inner join public."Wykonczenie" on public."Wykonczenie".id  = public."Material_Wykonczenie".id_wykonczenie inner join public."Wykonczenie_Model" on public."Wykonczenie_Model".id_wykonczenie = public."Wykonczenie".id inner join public."Model" on public."Model".id = public."Wykonczenie_Model".id_model where "Produkty".name =''itemname'';',"'Baner reklamowy'"))
+print(bazkie_produkty_route(' select "Produkty".name as name_produkty,"Material".name as name_material, "Wykonczenie".name as name_wykonczenie,"Material".name as name_material, "Material".opis as opis_material, "Wykonczenie".opis as opis_wykonczenie from public."Produkty_Material" inner join "Produkty" ON  "Produkty".id = public."Produkty_Material"."Produkty_id" inner join "Material" ON public."Produkty_Material"."Material_id" ="Material".id inner join public."Material_Wykonczenie" ON public."Material_Wykonczenie".id_material="Material".id inner join public."Wykonczenie" on public."Wykonczenie".id  = public."Material_Wykonczenie".id_wykonczenie inner join public."Wykonczenie_Model" on public."Wykonczenie_Model".id_wykonczenie = public."Wykonczenie".id inner join public."Model" on public."Model".id = public."Wykonczenie_Model".id_model where "Produkty".name =\'itemname\';',"Baner reklamowy"))
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
