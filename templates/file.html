@@ -17,6 +17,7 @@
 <!--
             <h3>Dołącz plik który mamy wydrukować</h3>
             <input id="plik" type="File" placeholder="Dodaj załącznik">
+            <h5>Maksymalny rozmiar pliku to 2,5MB</h5>
 -->
             <h4>Wklej link z plikiem</h4>
             <input id="link" type="url" placeholder="Wklej link" vakue="">
@@ -58,7 +59,7 @@
                 if (document.getElementById('link').value == "") {
                     toBase64(document.getElementById("plik").files[0]).then(function(value) {
                         var base = value
-                        base = base.replace(/\//g, "?")
+                        base = base.replace(/\//g, ')')
                         base =base.replace(/\+/g, "_")
                         base =base.replace(/\=/g, "-")
                         location.assign("data/" + document.getElementById("project").checked+"!p!"+base)

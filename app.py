@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request,session
 from test import SignUpForm
+import base64
 app = Flask(__name__)
 app.config['SECRET_KEY']= 'qaz123'
 app.config['TEMPLATES_AUTO_RELOAD'] = "True"
@@ -80,7 +81,6 @@ def data(url):
         plik = urlSplitted[2]
 
     session["file"] = plik
-    print(session['file'], "kappa")
     return render_template('data.html', plik = plik)
 @app.route('/products/materials/methods/file/data/submit/<url>')
 def submit(url):
