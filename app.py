@@ -3,6 +3,18 @@ from test import SignUpForm
 from flask_mail import Mail, Message
 import base64
 import psycopg2
+app = Flask(__name__)
+app.config['SECRET_KEY']= 'qaz123'
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+# mail
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'polishprinthouse72@gmail.com'  
+app.config['MAIL_DEFAULT_SENDER'] = 'polishprinthouse72@gmail.com' 
+app.config['MAIL_PASSWORD'] = 'y5?r/)Dyy6\/' 
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 def bazkie_produkty(sql):
     conn = psycopg2.connect(database="Print_house", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
@@ -16,26 +28,22 @@ def bazkie_produkty(sql):
     return products
 def bazkie_produkty_route(sql,product):
     sql= sql.replace('itemname',product)
-    conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    conn = psycopg2.connect(database="Print_house", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
     cur = conn.cursor()
     cur.execute(sql)
     rows = cur.fetchall()
     return rows
 
-app = Flask(__name__)
-app.config['SECRET_KEY']= 'qaz123'
-app.config['TEMPLATES_AUTO_RELOAD'] = "True"
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
+
+
+@app.route("/")
+def index():
+  
+   return "hello"
 
 @app.route('/start')
 def start():
     products= bazkie_produkty('select name from public."Produkty"')
-    msg = Message("Lama", recipients=['marcel72press@gmail.com'])
-    msg.body = "Mail body"
-    print('mail')
-    mail.send(msg)
     return render_template('start.html', products=products)    
 
 @app.route('/products/<url>')
@@ -106,13 +114,6 @@ def submit(url):
     urlSplitted = url.split("!")
     print(urlSplitted)
     return render_template('submit.html')
-app.config["MAIL_SERVER"]: 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587       
-app.config['MAIL_USE_TLS'] = True   
-app.config['MAIL_USERNAME'] = 'polishprinthouse72@gmail.com'  
-app.config['MAIL_DEFAULT_SENDER'] = 'polishprinthouse72@gmail.com' 
-app.config['MAIL_PASSWORD'] = 'y5?r/)Dyy6\/' 
 
-mail = Mail(app)  
 
 app.run()
