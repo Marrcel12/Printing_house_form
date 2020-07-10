@@ -13,24 +13,32 @@
         <h2>Rozmiar</h2>
     </header>
     <div id="main">
-        {%if sizing != '0' %}
-        {% for i in sizing %}
-        {% if i|length==2 %}
-        <a href='methods/{{i[0]}}'><input type='button' value='{{i}}'></a>
-        {% else %}
-        <a href='methods/{{i}}'><input type='button' value='{{i}}' s></a>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
-        {%if sizing=='0'%}
-        <input type="number" placeholder="Szerokość(cm)" id="wid" required>
-        <input type="number" placeholder="Wysokość(cm)" id="hei" required>
-        <input type="number" placeholder="Ilość sztuk" id="qua" required>
-        <button onclick=(calPrice())>Wylicz cenę</button>
-        <p class="price">Cena: <span id="price">0</span>zł</p>
-        <br>
-        <button onclick=(next())>Dalej</button>
-        {% endif %}
+        <form action="javascript:void(0);">
+            {%if sizing != ['Dowolny '] %}
+            {% for i in sizing %}
+            <input type="radio" name="size" value="{{i}}" required>{{i}}
+            <br>
+            {% endfor %}
+            <input type="number" placeholder="Ilość sztuk" id="qua" min="1" required>
+            <button onclick=(calPrice())>Wylicz cenę</button>
+            <p class="price">Cena orientacyjna: <span id="price">0</span>zł</p>
+            <br>
+            <input type="hidden" id="hidd" value="options">
+            <button type="submit" onclick=(next())>Dalej</button>
+            {% endif %}
+            
+            
+            {%if sizing==['Dowolny ']%}
+            <input type="number" placeholder="Szerokość(cm)" min="1" id="wid" required>
+            <input type="number" placeholder="Wysokość(cm)" min="1" id="hei" required>
+            <input type="number" placeholder="Ilość sztuk" min="1" id="qua" required>
+            <button onclick=(calPrice())>Wylicz cenę</button>
+            <p class="price">Cena orientacyjna: <span id="price">0</span>zł</p>
+            <br>
+            <input type="hidden" id="hidd" value="custom">
+            <button type="submit" onclick=(next())>Dalej</button>
+            {% endif %}
+        </form>
     </div>
     <div id="progressBar">
         <div class="progressed">Produkt</div>
@@ -42,12 +50,52 @@
     </div>
     <script>
         var cena = 20
+
         function calPrice() {
-            document.getElementById("price").innerHTML = (document.getElementById("wid").value/100) * (document.getElementById("hei").value/100) * document.getElementById("qua").value * cena
+            var hidIn = document.getElementById('hidd').value
+            if (hidIn == "custom") {
+                if (document.getElementById('qua').value!='' && document.getElementById('wid').value!='' && document.getElementById('hei').value!=''){
+                    document.getElementById("price").innerHTML = Math.round((document.getElementById("wid").value / 100) * (document.getElementById("hei").value / 100) * document.getElementById("qua").value * cena)
+                }
+                
+            }
+            if (hidIn == "options") {
+                var radios = document.getElementsByName('size')
+                var size =""
+                for (i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) {
+                        size = radios[i].value
+                    }
+                }
+                if (size != "" && document.getElementById('qua').value!=''){
+                    var sizes = size.split('x')
+                    document.getElementById("price").innerHTML = Math.round((sizes[0]/100)*(sizes[1]/100)*document.getElementById("qua").value*cena)
+                }
+            }
         }
-        function next(){
-            location.assign("file/"+document.getElementById("wid").value+"x"+document.getElementById("hei").value+"!"+document.getElementById("qua").value)
+
+        function next() {
+            var hidIn = document.getElementById('hidd').value
+            if (hidIn == "custom") {
+                if (document.getElementById('qua').value!='' && document.getElementById('wid').value!='' && document.getElementById('hei').value!=''){
+                    location.assign("file/" + document.getElementById("wid").value + "x" + document.getElementById("hei").value + "!" + document.getElementById("qua").value)
+                }
+                
+            }
+            if (hidIn == "options") {
+                var radios = document.getElementsByName('size')
+                var size =""
+                for (i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) {
+                        size = radios[i].value
+                    }
+                }
+                if (size != "" && document.getElementById('qua').value!=''){
+                location.assign("file/"+size + "!" + document.getElementById("qua").value)
+                }
+            }
         }
+
     </script>
 </body>
 

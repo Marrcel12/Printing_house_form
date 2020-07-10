@@ -14,11 +14,7 @@
     </header>
     <div id="main">
         {% for i in methods %}
-        {% if i|length==2 %}
-        <a href='methods/{{i[0]}}'><input type='button' value='{{i}}'></a>
-        {% else %}
-        <a href='methods/{{i}}'><input type='button' value='{{i}}' s></a>
-        {% endif %}
+        <a href='methods/{{i}}'><input type='button' value='{{i}}'></a>
         {% endfor %}
     </div>
     <div id="progressBar">

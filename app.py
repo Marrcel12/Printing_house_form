@@ -35,33 +35,37 @@ def start():
 
 @app.route('/products/<url>')
 def products(url):
-    
     produkt=url
     session["product"] = produkt
-    details = bazkie_produkty_route('select "Produkty".name as name_produkty,"Material".name as name_material, "Wykonczenie".name as name_wykonczenie,"Material".name as name_material, "Material".opis as opis_material, "Wykonczenie".opis as opis_wykonczenie from public."Produkty_Material" inner join "Produkty" ON  "Produkty".id = public."Produkty_Material"."Produkty_id" inner join "Material" ON public."Produkty_Material"."Material_id" ="Material".id inner join public."Material_Wykonczenie" ON public."Material_Wykonczenie".id_material="Material".id inner join public."Wykonczenie" on public."Wykonczenie".id  = public."Material_Wykonczenie".id_wykonczenie inner join public."Wykonczenie_Model" on public."Wykonczenie_Model".id_wykonczenie = public."Wykonczenie".id inner join public."Model" on public."Model".id = public."Wykonczenie_Model".id_model where "Produkty".name =\'itemname\';',produkt)
+    details = bazkie_produkty_route('select "Produkty".name as name_produkty,"Material".name as name_material, "Wykonczenie".name as name_wykonczenie,public."Model".name as model_name, "Material".name as name_material, "Material".opis as opis_material, "Wykonczenie".opis as opis_wykonczenie from public."Produkty_Material" inner join "Produkty" ON "Produkty".id = public."Produkty_Material"."Produkty_id" inner join "Material" ON public."Produkty_Material"."Material_id" ="Material".id inner join public."Material_Wykonczenie" ON public."Material_Wykonczenie".id_material="Material".id inner join public."Wykonczenie" on public."Wykonczenie".id = public."Material_Wykonczenie".id_wykonczenie inner join public."Wykonczenie_Model" on public."Wykonczenie_Model".id_wykonczenie = public."Wykonczenie".id inner join public."Model" on public."Model".id = public."Wykonczenie_Model".id_model where "Produkty".name =\'itemname\';',produkt)
     session['details'] = details
     materials = []
     for x in details:
-        materials.append([x[1], x[4]])
+        i=0
+        for k in materials:
+            if (x[1]==k[0]):
+                i=i+1
+        if i == 0:
+            materials.append((x[1], x[5]))
     return render_template('products.html',materials=materials )
 
 @app.route('/products/materials/<url>' )
 def materials(url):
-    
     material=url
     session["material"] = material
-    methods=""
-    if material == 'Frontlit':
-        methods=["ZGRZEW","DOCIĘTE NA WYMIAR"]
-    if material == 'MESH (SIATKA)':
-        methods=["ZGRZEW + OCZKA"]
-    if material == 'BLOCKOUT':
-        methods=['DOCIĘTE NA WYMIAR']
-    if material == 'POLIESTER 205g':
-        methods=['OBSZYCIE']
-    if material == 'Poliester 115g':
-        methods=['DOCIĘTE NA WYMIAR','OBSZYCIE + OCZKA']
-    return render_template('materials.html',material=material,methods=methods )
+    details = (session["details"])
+    methods=[]
+    for x in details:
+        if(x[0]==session['product']):
+            if(material in x[1]):
+                i=0
+                for k in methods:
+                    if k in x[2]:
+                        i=i+1
+                if i==0:
+                    methods.append(x[2])
+                    
+    return render_template('materials.html',methods=methods )
 
 
 @app.route('/products/materials/methods/<url>')
@@ -69,10 +73,14 @@ def methods(url):
     method=url
     session['method'] = method
     item =session['product']
-    if item == 'baner':
-        sizing = "0"
-    if item !='baner':
-        sizing = ['220x20', '300x30']
+    sizing =[]
+    details = session["details"]
+    for x in details:
+        if(session['product'] in x[0]):
+            if(session['material'] in x[1]):
+                if(method in x[2]):
+                    sizing.append(x[3])
+    print(sizing)
     return render_template('size.html', sizing=sizing)
 
 @app.route('/products/materials/methods/file/<url>', methods=['GET','POST'])
