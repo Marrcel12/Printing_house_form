@@ -19,13 +19,17 @@
         <form action="javascript:void(0);">
             <h3>Podaj imię i nazwisko</h3>
             <input type="text" id="nameSurname" placeholder="Imię i nazwisko" required>
-            <h3>Nazwa firmy</h3>
-            <input type="text" id="companyName" placeholder="Firma">
+            <h3>Firma</h3>
+            <input type="text" id="companyName" placeholder="Nazwa firmy">
+            <input type="number" id="nip" placeholder="NIP">
             <h3>Adres</h3>
             <input type="text" id="city" placeholder="Miasto" required>
             <input type="text" id="postalCode" placeholder="Kod pocztowy" required>
             <input type="text" id="street" placeholder="Ulica i numer" required>
-            <br>
+            <h3>Dane kontaktowe</h3>
+            <input type="mail" id="mail" placeholder="Aders e-mail" required>
+            <input type="tel" id="tel" placeholder="Nr telefonu">
+            <h3>Zgody</h3>
             <input type="checkbox" id="regulamin" required>Zapoznałem się z regulaminem i polityką prywatności.
             <br>
             <input type="checkbox" id="newsletter">Wyrażam dobrowolną zgodę na przetwarzanie podanych przeze mnie danych osobowych przez Roberta Ruszkiewicza prowadzącego działalność pod firmą Robert Ruszkiewicz z siedzibą ul. Jodłowa 14, 72-100 Goleniów (NIP: 8561766212) w celach marketingowych, w tym w celu realizacji usługi wysyłania Newslettera na podany przeze mnie adres e-mail. Więcej informacji w polityce prywatności.
@@ -45,13 +49,16 @@
         function send() {
             var name = document.getElementById("nameSurname").value
             var company = document.getElementById("companyName").value
+            var nip = document.getElementById('nip').value
             var city = document.getElementById("city").value
             var code = document.getElementById("postalCode").value
             var street = document.getElementById("street").value
             var agreement = document.getElementById("regulamin").checked
             var newsletter = document.getElementById("newsletter").checked
-            if (name != "" && city != "" && code != "" && street != "" && agreement == true) {
-                location.assign('submit/'+name+'!'+company+'!'+city+'!'+code+'!'+street+'!'+newsletter)
+            var mail = document.getElementById("mail").value
+            var tel = document.getElementById("tel").value
+            if (name != "" && city != "" && code != "" && street != "" && agreement == true && mail != "") {
+                location.assign('submit/'+name+'!'+company+'!'+nip+'!'+city+'!'+code+'!'+street+'!'+newsletter+'!'+mail+'!'+tel)
             }
         }
     </script>
