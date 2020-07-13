@@ -14,11 +14,7 @@
     <div id="main">
         <h3>Wybierz jaki produkt chcesz u nas wydrukować</h3>
         {% for i in products %}
-        {% if i|length==2 %}
-        <a href='products/{{i[0]}}'><input type='button' value='{{i}}'></a>
-        {% else %}
         <a href='products/{{i}}'><input type='button' value='{{i}}'s></a>
-        {% endif %}
         {% endfor %}
     </div>
     <div id="progressBar">
