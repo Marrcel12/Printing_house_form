@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drukarnia- wybierz produkt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/start.css') }}">
+</head>
+
+<body>
+    <header>
+        <h2>Bodyfit</h2>
+    </header>
+    <div id="main">
+        <h3>Usuń produkt</h3>
+        <div id="list">
+            {% for i in produkty %}
+            <a href='products/{{i[]}}'>
+                <p><span>{{i}}</span></p>
+            </a>
+            {% endfor %}
+        </div>
+        <a href="/addproduct"><button>Dodaj produkt</button></a>
+    </div>
+
+</body>
+
+</html>

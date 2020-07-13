@@ -83,3 +83,9 @@ a p {
 .materials-page a {
     min-height: calc(13vw + 20px) !important;
 }
+.alert{
+    padding: 20px 20px;
+    color: red;
+    font-size: 24px;
+    font-weight: bold;
+}

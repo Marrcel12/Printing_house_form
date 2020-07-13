@@ -136,5 +136,25 @@ def submit(url):
     mail.send(msg)
     return render_template('submit.html')
 
+@app.route('/login')
+def login():
+    session['login']=0
+    return render_template('login.html', wrong=0)
 
+@app.route('/adminpanel/<url>')
+def adminpanel(url):
+    if(url == "qaz123"):
+        products= bazkie_produkty('select name from public."Produkty"')
+        session["login"]=1
+        return render_template('adminpanel.html' ,produkty = products)
+    else:
+        return render_template('login.html', wrong=1)
+
+@app.route('/addproduct')
+def addproduct():
+    if session['login']==1:
+        return render_template('addproduct.html')
+    else:
+        return render_template('login.html', wrong=0)
+    
 app.run()

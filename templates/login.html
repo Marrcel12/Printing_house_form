@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drukarnia- wybierz produkt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/start.css') }}">
+</head>
+
+<body>
+    <header>
+        <h2>Bodyfit</h2>
+    </header>
+    <div id="main">
+       {% if wrong==1 %}
+           <p class="alert">Złe hasło, spróbuj ponownie</p>
+       {% endif %}
+        <h3>Wpisz hasło</h3>
+        <input type="password" id="pass">
+        <br>
+        <button onclick=login()>Zaloguj</button>
+    </div>
+    <script>
+        function login(){
+            location.assign('/adminpanel/' + document.getElementById('pass').value )
+        }
+    </script>
+</body>
+
+</html>
