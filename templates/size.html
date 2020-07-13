@@ -26,8 +26,6 @@
             <input type="hidden" id="hidd" value="options">
             <button type="submit" onclick=(next())>Dalej</button>
             {% endif %}
-            
-            
             {%if sizing==['Dowolny ']%}
             <input type="number" placeholder="Szerokość(cm)" min="1" id="wid" required>
             <input type="number" placeholder="Wysokość(cm)" min="1" id="hei" required>
@@ -54,22 +52,21 @@
         function calPrice() {
             var hidIn = document.getElementById('hidd').value
             if (hidIn == "custom") {
-                if (document.getElementById('qua').value!='' && document.getElementById('wid').value!='' && document.getElementById('hei').value!=''){
+                if (document.getElementById('qua').value != '' && document.getElementById('wid').value != '' && document.getElementById('hei').value != '') {
                     document.getElementById("price").innerHTML = Math.round((document.getElementById("wid").value / 100) * (document.getElementById("hei").value / 100) * document.getElementById("qua").value * cena)
                 }
-                
             }
             if (hidIn == "options") {
                 var radios = document.getElementsByName('size')
-                var size =""
+                var size = ""
                 for (i = 0; i < radios.length; i++) {
                     if (radios[i].checked) {
                         size = radios[i].value
                     }
                 }
-                if (size != "" && document.getElementById('qua').value!=''){
+                if (size != "" && document.getElementById('qua').value != '') {
                     var sizes = size.split('x')
-                    document.getElementById("price").innerHTML = Math.round((sizes[0]/100)*(sizes[1]/100)*document.getElementById("qua").value*cena)
+                    document.getElementById("price").innerHTML = Math.round((sizes[0] / 100) * (sizes[1] / 100) * document.getElementById("qua").value * cena)
                 }
             }
         }
@@ -77,25 +74,23 @@
         function next() {
             var hidIn = document.getElementById('hidd').value
             if (hidIn == "custom") {
-                if (document.getElementById('qua').value!='' && document.getElementById('wid').value!='' && document.getElementById('hei').value!=''){
+                if (document.getElementById('qua').value != '' && document.getElementById('wid').value != '' && document.getElementById('hei').value != '') {
                     location.assign("file/" + document.getElementById("wid").value + "x" + document.getElementById("hei").value + "!" + document.getElementById("qua").value)
                 }
-                
             }
             if (hidIn == "options") {
                 var radios = document.getElementsByName('size')
-                var size =""
+                var size = ""
                 for (i = 0; i < radios.length; i++) {
                     if (radios[i].checked) {
                         size = radios[i].value
                     }
                 }
-                if (size != "" && document.getElementById('qua').value!=''){
-                location.assign("file/"+size + "!" + document.getElementById("qua").value)
+                if (size != "" && document.getElementById('qua').value != '') {
+                    location.assign("file/" + size + "!" + document.getElementById("qua").value)
                 }
             }
         }
-
     </script>
 </body>
 

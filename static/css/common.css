@@ -42,7 +42,7 @@ body {
 
 a {
     width: 10vw;
-    min-height: 10vw;
+    height: 10vw;
     display: inline-block;
     background-color: white;
     color: black;
@@ -52,7 +52,8 @@ a {
     box-shadow: 3px 4px 19px -2px rgba(0, 0, 0, 0.5);
     transition: .3s linear;
 }
-a:hover{
+
+a:hover {
     background-color: #e8e8e8;
     box-shadow: 9px 10px 19px -2px rgba(0, 0, 0, 0.7);
 }
@@ -74,6 +75,11 @@ a p {
     margin: 0;
     transform: translate(0, 1vw)
 }
-.desc{
+
+.desc {
     font-weight: normal !important;
+}
+
+.materials-page a {
+    min-height: calc(13vw + 20px) !important;
 }

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drukarnia- wybierz materiał</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
-
 </head>
 
 <body>
@@ -15,10 +14,12 @@
     </header>
     <div id="main">
         <h2>Materials</h2>
-        <div id="list">
-        {% for i in materials %}
-        <a href='materials/{{i[0]}}'><p><span class='desc'>{{i[1]}}</span><br><span>{{i[0]}}</span></p></a>
-        {% endfor %}
+        <div id="list" class="materials-page">
+            {% for i in materials %}
+            <a href='materials/{{i[0]}}'>
+                <p><span class='desc'>{{i[1]}}</span><br><span>{{i[0]}}</span></p>
+            </a>
+            {% endfor %}
         </div>
     </div>
     <div id="progressBar">
@@ -30,10 +31,10 @@
         <div>Dane</div>
     </div>
     <script>
-        var temp =document.getElementsByClassName('desc').length
-        for(i=0; i<temp; i++){
-            if(document.getElementsByClassName('desc')[i].innerHTML== "None"){
-                document.getElementsByClassName('desc')[i].innerHTML=""
+        var temp = document.getElementsByClassName('desc').length
+        for (i = 0; i < temp; i++) {
+            if (document.getElementsByClassName('desc')[i].innerHTML == "None") {
+                document.getElementsByClassName('desc')[i].innerHTML = ""
             }
         }
     </script>
