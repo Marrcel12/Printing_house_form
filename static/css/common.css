@@ -1,13 +1,18 @@
-*{
+* {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-body{
+
+body {
     background-color: #F5F5F5;
 }
-#main, #progressBar{
+
+#main,
+#progressBar,
+#list {
     text-align: center;
 }
-#progressBar{
+
+#progressBar {
     width: 60vw;
     position: fixed;
     left: 20vw;
@@ -15,7 +20,8 @@ body{
     font-size: 0;
     grid-template-columns: 1/6 1/6 1/6 1/6 1/6 1/6 1/6;
 }
-#progressBar> div{
+
+#progressBar > div {
     display: inline-block;
     font-size: 18px;
     width: 10vw;
@@ -27,15 +33,47 @@ body{
     border-left: 1px solid #F5F5F5;
     border-right: 1px solid #F5F5F5;
 }
-.progressed{
+
+.progressed {
     background-color: #EAF7F6 !important;
-    border-top: 5px solid #038775 !important;  
+    border-top: 5px solid #038775 !important;
     color: #038775 !important;
 }
 
-a{
+a {
     width: 10vw;
-    height: 10vw;
+    min-height: 10vw;
     display: inline-block;
     background-color: white;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 1vw;
+    box-shadow: 3px 4px 19px -2px rgba(0, 0, 0, 0.5);
+    transition: .3s linear;
+}
+a:hover{
+    background-color: #e8e8e8;
+    box-shadow: 9px 10px 19px -2px rgba(0, 0, 0, 0.7);
+}
+
+img {
+    width: 100%;
+}
+
+#list {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+}
+
+#list a {
+    margin: 20px auto;
+}
+
+a p {
+    margin: 0;
+    transform: translate(0, 1vw)
+}
+.desc{
+    font-weight: normal !important;
 }

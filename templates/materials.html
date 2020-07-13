@@ -13,9 +13,11 @@
         <h2>Wykończenie</h2>
     </header>
     <div id="main">
+       <div id="list">
         {% for i in methods %}
-        <a href='methods/{{i}}'><input type='button' value='{{i}}'></a>
+        <a href='methods/{{i}}'><p><span>{{i}}</span></p></a>
         {% endfor %}
+        </div>
     </div>
     <div id="progressBar">
         <div class="progressed">Produkt</div>

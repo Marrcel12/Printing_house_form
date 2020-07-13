@@ -44,7 +44,10 @@ def index():
 @app.route('/start')
 def start():
     products= bazkie_produkty('select name from public."Produkty"')
-    return render_template('start.html', products=products)    
+    lista_produktow =[]
+    for x in products:
+        lista_produktow.append((x, "/static/img/products/{}.png".format(x)))
+    return render_template('start.html', produkty=lista_produktow)    
 
 @app.route('/products/<url>')
 def products(url):

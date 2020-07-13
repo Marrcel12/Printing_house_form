@@ -15,13 +15,11 @@
     </header>
     <div id="main">
         <h2>Materials</h2>
+        <div id="list">
         {% for i in materials %}
-        {% if i|length==2 %}
-        <a href='materials/{{i[0]}}'><span class='desc'>{{i[1]}}</span><br><input type='button' value='{{i[0]}}'></a>
-        {% else %}
-        <a href='materials/{{i}}'><span class='desc'>{{i[1]}}</span><br><input type='button' value='{{i[0]}}'s></a>
-        {% endif %}
+        <a href='materials/{{i[0]}}'><p><span class='desc'>{{i[1]}}</span><br><span>{{i[0]}}</span></p></a>
         {% endfor %}
+        </div>
     </div>
     <div id="progressBar">
         <div class="progressed">Produkt</div>
