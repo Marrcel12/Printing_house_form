@@ -17,7 +17,7 @@ app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
 def bazkie_produkty(sql):
-    conn = psycopg2.connect(database="Print_house", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
     cur = conn.cursor()
     cur.execute(sql)
     rows = cur.fetchall()
@@ -28,7 +28,7 @@ def bazkie_produkty(sql):
     return products
 def bazkie_produkty_route(sql,product):
     sql= sql.replace('itemname',product)
-    conn = psycopg2.connect(database="Print_house", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
     cur = conn.cursor()
     cur.execute(sql)
     rows = cur.fetchall()
@@ -122,9 +122,12 @@ def submit(url):
     urlSplitted = url.split("!")
     session['dane']=urlSplitted
     projekt="nie"
+    newss='nie'
     if session['project']==True:
         projekt="tak"
-    text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Plik '+session["file"]+'\n Ilosc '+session['quantity']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n Adres '+session['dane'][2]+ " "+session['dane'][3]+ " "+session['dane'][4]+ " "+'\n Dodatkowy projekt '+projekt
+    if session['dane'][6] == True:
+        newss="tak"
+    text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Plik '+session["file"]+'\n Ilosc '+session['quantity']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n NIP '+session['dane'][2]+ "\n Adres "+session['dane'][3]+ " "+session['dane'][4]+" "+session['dane'][5]+"\n Czy newsletter " +newss+"\n Mail "+session['dane'][7]+'\n Numer tel '+session['dane'][8]+'\n Dodatkowy projekt '+projekt
     msg = Message("Zlecenie",  recipients=['marcel72press@gmail.com'])
     msg.body = text
     mail.send(msg)
