@@ -120,7 +120,14 @@ def data(url):
 @app.route('/products/materials/methods/file/data/submit/<url>')
 def submit(url):
     urlSplitted = url.split("!")
-    print(urlSplitted)
+    session['dane']=urlSplitted
+    projekt="nie"
+    if session['project']==True:
+        projekt="tak"
+    text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Plik '+session["file"]+'\n Ilosc '+session['quantity']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n Adres '+session['dane'][2]+ " "+session['dane'][3]+ " "+session['dane'][4]+ " "+'\n Dodatkowy projekt '+projekt
+    msg = Message("Zlecenie",  recipients=['marcel72press@gmail.com'])
+    msg.body = text
+    mail.send(msg)
     return render_template('submit.html')
 
 
