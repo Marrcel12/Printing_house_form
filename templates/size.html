@@ -10,13 +10,14 @@
 
 <body>
     <header>
-        <h2>Rozmiar</h2>
+        <h2>Bodyfit</h2>
     </header>
     <div id="main">
+       <h3>Wybierz rozmiar</h3>
         <form action="javascript:void(0);">
-            {%if sizing != ['Dowolny '] %}
+            {%if sizing[0][0] != 'Dowolny ' %}
             {% for i in sizing %}
-            <input type="radio" name="size" value="{{i}}" required>{{i}}
+            <input type="radio" name="size" value="{{i[0]}}x{{i[1]}}" required>{{i[0]}}
             <br>
             {% endfor %}
             <input type="number" placeholder="Ilość sztuk" id="qua" min="1" required>
@@ -26,7 +27,7 @@
             <input type="hidden" id="hidd" value="options">
             <button type="submit" onclick=(next())>Dalej</button>
             {% endif %}
-            {%if sizing==['Dowolny ']%}
+            {%if sizing[0][0]=='Dowolny '%}
             <input type="number" placeholder="Szerokość(cm)" min="1" id="wid" required>
             <input type="number" placeholder="Wysokość(cm)" min="1" id="hei" required>
             <input type="number" placeholder="Ilość sztuk" min="1" id="qua" required>
@@ -34,6 +35,7 @@
             <p class="price">Cena orientacyjna: <span id="price">0</span>zł</p>
             <br>
             <input type="hidden" id="hidd" value="custom">
+            <input type="hidden" id="priceValue" value="{{sizing[0][1]}}">
             <button type="submit" onclick=(next())>Dalej</button>
             {% endif %}
         </form>
@@ -47,13 +49,13 @@
         <div>Dane</div>
     </div>
     <script>
-        var cena = 20
-
         function calPrice() {
             var hidIn = document.getElementById('hidd').value
             if (hidIn == "custom") {
+                var price = document.getElementById('priceValue').value
+                console.log(price)
                 if (document.getElementById('qua').value != '' && document.getElementById('wid').value != '' && document.getElementById('hei').value != '') {
-                    document.getElementById("price").innerHTML = Math.round((document.getElementById("wid").value / 100) * (document.getElementById("hei").value / 100) * document.getElementById("qua").value * cena)
+                    document.getElementById("price").innerHTML = Math.round((document.getElementById("wid").value / 100) * (document.getElementById("hei").value / 100) * document.getElementById("qua").value * price)
                 }
             }
             if (hidIn == "options") {
@@ -66,7 +68,7 @@
                 }
                 if (size != "" && document.getElementById('qua').value != '') {
                     var sizes = size.split('x')
-                    document.getElementById("price").innerHTML = Math.round((sizes[0] / 100) * (sizes[1] / 100) * document.getElementById("qua").value * cena)
+                    document.getElementById("price").innerHTML = (document.getElementById("qua").value * sizes[2])
                 }
             }
         }
@@ -86,8 +88,10 @@
                         size = radios[i].value
                     }
                 }
+                var sizes = size.split('x')
+                var sizes = sizes[0]+'x'+sizes[1]
                 if (size != "" && document.getElementById('qua').value != '') {
-                    location.assign("file/" + size + "!" + document.getElementById("qua").value)
+                    location.assign("file/" + sizes + "!" + document.getElementById("qua").value)
                 }
             }
         }
