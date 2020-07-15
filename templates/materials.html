@@ -16,7 +16,7 @@
         <div id="list">
             {% for i in methods %}
             <a href='methods/{{i}}'>
-                <p><span>{{i}}</span></p>
+                <p><img src="/static/img/finishing/{{product}}_{{i}}.png" alt="{{i}}" class="finish"><span>{{i}}</span></p>
             </a>
             {% endfor %}
         </div>
@@ -29,6 +29,23 @@
         <div>Plik</div>
         <div>Dane</div>
     </div>
+    <script>
+        function imageExists(image_url) {
+            var http = new XMLHttpRequest();
+            http.open('HEAD', image_url, false);
+            http.send();
+            return http.status != 404;
+        }
+        var zdjecia = document.getElementsByClassName('finish')
+        for(i=0; i<zdjecia.length; i++){
+            if(imageExists(zdjecia[i].src)){
+                continue
+            }else{
+                zdjecia[i].style="display:none"
+            }
+        }
+
+    </script>
 </body>
 
 </html>

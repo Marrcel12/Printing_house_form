@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,session
+from flask import Flask, render_template, request,session, redirect
 from test import SignUpForm
 from flask_mail import Mail, Message
 import base64
@@ -80,8 +80,10 @@ def materials(url):
                         i=i+1
                 if i==0:
                     methods.append(x[2])
+    if('none' in methods[0]):
+        return redirect("/products/materials/methods/Nie dotyczy")
                     
-    return render_template('materials.html',methods=methods )
+    return render_template('materials.html',methods=methods, product=session["product"] )
 
 
 @app.route('/products/materials/methods/<url>')
