@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,session, redirect
+from flask import Flask, render_template, request,session,redirect,url_for
 from test import SignUpForm
 from flask_mail import Mail, Message
 import base64
@@ -16,6 +16,19 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
+# login 
+def login_database(sql):
+    conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    cur = conn.cursor()
+    cur.execute(sql)
+    rows = cur.fetchall()
+    passwords=[]
+    for row in rows:
+        passwords.append(row[0])
+    conn.close()
+    return passwords
+    
+# database
 def bazkie_produkty(sql):
     conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
     cur = conn.cursor()
@@ -32,6 +45,7 @@ def bazkie_produkty_route(sql,product):
     cur = conn.cursor()
     cur.execute(sql)
     rows = cur.fetchall()
+    conn.close()
     return rows
 
 
@@ -138,19 +152,26 @@ def submit(url):
     mail.send(msg)
     return render_template('submit.html')
 
-@app.route('/login')
+@app.route('/login', methods= ['GET','POST'])
 def login():
-    session['login']=0
+    if request.method =='POST':
+        potencial_password = request.form['password']
+        passwords=login_database('select password from public."passwords"')
+       
+        if potencial_password in passwords:
+            return redirect(url_for('adminpanel'))
+        else:
+            session['login']=0
+            return render_template('login.html', wrong=1)
+            
     return render_template('login.html', wrong=0)
 
-@app.route('/adminpanel/<url>')
-def adminpanel(url):
-    if(url == "qaz123"):
+@app.route('/adminpanel')
+def adminpanel():
         products= bazkie_produkty('select name from public."Produkty"')
         session["login"]=1
         return render_template('adminpanel.html' ,produkty = products)
-    else:
-        return render_template('login.html', wrong=1)
+    
 
 @app.route('/addproduct')
 def addproduct():

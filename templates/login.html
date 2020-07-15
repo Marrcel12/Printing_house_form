@@ -18,9 +18,11 @@
            <p class="alert">Złe hasło, spróbuj ponownie</p>
        {% endif %}
         <h3>Wpisz hasło</h3>
-        <input type="password" id="pass">
+        <form method="POST">
+        <input type="password" id="pass" name="password">
         <br>
-        <button onclick=login()>Zaloguj</button>
+        <button onclick=login() type="submit">Zaloguj</button>
+    </form>
     </div>
     <script>
         function login(){
