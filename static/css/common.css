@@ -42,7 +42,7 @@ body {
 
 a {
     width: 10vw;
-    height: 10vw;
+    padding-bottom: 20px;
     display: inline-block;
     background-color: white;
     color: black;
