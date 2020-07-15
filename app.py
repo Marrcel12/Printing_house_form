@@ -17,17 +17,17 @@ app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
 # login 
-class User:
-    def __init__(self,id,username,password):
-        self.id=id
-        self.username=username
-        self.password=password
-    def __repr__(self):
-        return f'<User: {self.username}'
-users=[]
-users.append(User(id=1,username="admin",password="qaz123"))
-print(users)
-
+def login_database(sql):
+    conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    cur = conn.cursor()
+    cur.execute(sql)
+    rows = cur.fetchall()
+    passwords=[]
+    for row in rows:
+        passwords.append(row[0])
+    conn.close()
+    return passwords
+    
 # database
 def bazkie_produkty(sql):
     conn = psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
@@ -45,6 +45,7 @@ def bazkie_produkty_route(sql,product):
     cur = conn.cursor()
     cur.execute(sql)
     rows = cur.fetchall()
+    conn.close()
     return rows
 
 
@@ -152,10 +153,10 @@ def submit(url):
 @app.route('/login', methods= ['GET','POST'])
 def login():
     if request.method =='POST':
-        session.pop('user_id',None)
-        password = request.form['password']
-        users_pass=[x for x in  users if  x.password == password]
-        if len(users_pass) >=1:
+        potencial_password = request.form['password']
+        passwords=login_database('select password from public."passwords"')
+       
+        if potencial_password in passwords:
             return redirect(url_for('adminpanel'))
         else:
             session['login']=0
