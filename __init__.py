@@ -114,7 +114,9 @@ def methods(url):
                 if(method in x[2]):
                     wymiar = x[3].split("_")
                     sizing.append((wymiar[0], x[7]))
-    print(sizing)
+                if(method == "Nie dotyczy"):
+                    wymiar = x[3].split("_")
+                    sizing.append((wymiar[0], x[7]))
     return render_template('size.html', sizing=sizing)
 
 @app.route('/products/materials/methods/file/<url>', methods=['GET','POST'])
