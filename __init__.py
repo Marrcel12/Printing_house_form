@@ -68,9 +68,8 @@ def products(url):
     produkt=url
     session["product"] = produkt
     details = bazkie_produkty_route('select"Produkty".name as name_produkty,"Material".name as name_material,"Wykonczenie".name as name_wykonczenie,public."Model".name as model_name,"Material".name as name_material,"Material".opis as opis_material,"Wykonczenie".opis as opis_wykonczenie,cena from public."Produkty_Material"inner join"Produkty"ON"Produkty".id=public."Produkty_Material"."Produkty_id"inner join"Material"ON public."Produkty_Material"."Material_id"="Material".id inner join public."Material_Wykonczenie"ON public."Material_Wykonczenie".id_material="Material".id inner join public."Wykonczenie"on public."Wykonczenie".id=public."Material_Wykonczenie".id_wykonczenie inner join public."Wykonczenie_Model"on public."Wykonczenie_Model".id_wykonczenie=public."Wykonczenie".id inner join public."Model"on public."Model".id=public."Wykonczenie_Model".id_model inner join public.cena_model on public.cena_model.id_model=public."Model".id where "Produkty".name =\'itemname\';',produkt)
-    if details[0][7] == 0:
+    if details[0][7] == '0':
         details = bazkie_produkty_route('select"Produkty".name as name_produkty,"Material".name as name_material,"Wykonczenie".name as name_wykonczenie,public."Model".name as model_name,"Material".name as name_material,"Material".opis as opis_material,"Wykonczenie".opis as opis_wykonczenie,cena_za_metr from public."Produkty_Material"inner join"Produkty"ON"Produkty".id=public."Produkty_Material"."Produkty_id"inner join"Material"ON public."Produkty_Material"."Material_id"="Material".id inner join public."Material_Wykonczenie"ON public."Material_Wykonczenie".id_material="Material".id inner join public."Wykonczenie"on public."Wykonczenie".id=public."Material_Wykonczenie".id_wykonczenie inner join public."Wykonczenie_Model"on public."Wykonczenie_Model".id_wykonczenie=public."Wykonczenie".id inner join public."Model"on public."Model".id=public."Wykonczenie_Model".id_model inner join public.cena_material on public.cena_material.id_material=public."Material".id where "Produkty".name =\'itemname\';',produkt)
-    print(details)
     session['details'] = details
     materials = []
     for x in details:
@@ -114,7 +113,8 @@ def methods(url):
         if(session['product'] in x[0]):
             if(session['material'] in x[1]):
                 if(method in x[2]):
-                    sizing.append(x[3])
+                    wymiar = x[3].split("_")
+                    sizing.append((wymiar[0], x[7]))
     print(sizing)
     return render_template('size.html', sizing=sizing)
 
