@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request,session,redirect,url_for
-from test import SignUpForm
 from flask_mail import Mail, Message
 import base64
 import psycopg2
