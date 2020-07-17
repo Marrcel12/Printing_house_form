@@ -46,12 +46,23 @@ def bazkie_produkty_route(sql,product):
     rows = cur.fetchall()
     conn.close()
     return rows
-def bazkie_add_del(sql):
+def bazkie_add_del(sql,table):
     conn =psycopg2.connect(database="drukarnia", user = "postgres", password = "qaz123", host = "127.0.0.1", port = "5432")
+    # check1
+    sql_count = 'SELECT count(*) from '+table+';'
+    cur = conn.cursor()
+    cur.execute(sql_count)
+    result_before = cur.fetchone()
+    # main
     cur = conn.cursor()
     cur.execute(sql)
     conn.commit()
+    # check2
+    cur = conn.cursor()
+    cur.execute(sql_count)
+    result_after = cur.fetchone()
     conn.close()
+    return(result_before!=result_after)
 
 @app.route("/")
 def index():
@@ -186,18 +197,23 @@ def addproduct():
     if session['login']==1:
         product_name=request.args.get('name', None)
         product_name="'"+product_name+"'"
-        sql="INSERT INTO public."+'"Produkty"'+f"(id, name)	VALUES (DEFAULT ,{product_name});"
-        bazkie_add_del(sql)
-        return render_template('addproduct.html')
+        table='"Produkty"'
+        sql=f"INSERT INTO public.{table} (id, name)	VALUES (DEFAULT ,{product_name});"
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return render_template('addproduct.html',dodany=zmiany)
     else:
         return render_template('login.html', wrong=0)
 @app.route('/delproduct',methods=['GET'])
 def delproduct():
     if session['login']==1:
         product_id=request.args.get('id', None)
-        sql=f'DELETE FROM public."Produkty"	WHERE "Produkty".id={product_id};'
-        bazkie_add_del(sql)
-        return render_template('addproduct.html')
+        table='"Produkty"'
+        sql=f'DELETE FROM public.{table}	WHERE "Produkty".id={product_id};'
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return render_template('addproduct.html',usuniety=zmiany)
     else:
         return render_template('login.html', wrong=0)
+        
 app.run()
