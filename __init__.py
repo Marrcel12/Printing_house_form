@@ -170,7 +170,7 @@ def submit(url):
     msg.body = text
     mail.send(msg)
     return render_template('submit.html')
-
+# adminpage
 @app.route('/login', methods= ['GET','POST'])
 def login():
     if request.method =='POST':
@@ -254,24 +254,24 @@ def delwykonczenie():
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
 
-@app.route('/addmaterial',methods=['GET']) 
-def addMaterial():
-    if session['login']==1:
-        material_name="'"+request.args.get('name',None)+"'"    
-        material_desc="'"+request.args.get('desc',None)+"'"   
-        table='"Material"'
-        sql=f'INSERT INTO public.{table}(id, name, opis)	VALUES (DEFAULT, {wykonczenie_name}, {wykonczenie_desc});'
-        zmiany=bazkie_add_del(sql,table)
-        return render_template('addproduct.html',usuniety=zmiany)
-@app.route('/delmaterial',methods=['GET']) 
-def delMaterial():
-    if session['login']==1:
-        material_id=request.args.get('id', None)    
-        table='"Material"'
-        sql=f'DELETE FROM public.{table} WHERE {table}.id={wykonczenie_id};'
-        zmiany=bazkie_add_del(sql,table)
-        print(zmiany)
-        return render_template('addproduct.html',usuniety=zmiany)
+# @app.route('/addmaterial',methods=['GET']) 
+# def addMaterial():
+#     if session['login']==1:
+#         material_name="'"+request.args.get('name',None)+"'"    
+#         material_desc="'"+request.args.get('desc',None)+"'"   
+#         table='"Material"'
+#         sql=f'INSERT INTO public.{table}(id, name, opis)	VALUES (DEFAULT, {wykonczenie_name}, {wykonczenie_desc});'
+#         zmiany=bazkie_add_del(sql,table)
+#         return render_template('addproduct.html',usuniety=zmiany)
+# @app.route('/delmaterial',methods=['GET']) 
+# def delMaterial():
+#     if session['login']==1:
+#         material_id=request.args.get('id', None)    
+#         table='"Material"'
+#         sql=f'DELETE FROM public.{table} WHERE {table}.id={wykonczenie_id};'
+#         zmiany=bazkie_add_del(sql,table)
+#         print(zmiany)
+#         return render_template('addproduct.html',usuniety=zmiany)
 
 @app.route('/addmodel',methods=['GET']) 
 def addModel():
@@ -287,6 +287,46 @@ def delModel():
         model_id=request.args.get('id', None)    
         table='"Model"'
         sql=f'DELETE FROM public.{table} WHERE {table}.id={model_id};'
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return render_template('addproduct.html',usuniety=zmiany)
+# add relations
+@app.route('/addProdukty_Material',methods=['GET'])
+def addProdukty_Material():
+    if session['login']==1:
+        id_produkty=request.args.get('id_produkty', None)
+        id_material=request.args.get('id_material', None) 
+        table='"Produkty_Material"'
+        sql=f'INSERT INTO public."Produkty_Material"(id, "id_material", "id_produkty")VALUES (DEFAULT, {id_material}, {id_produkty});'
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return render_template('addproduct.html',usuniety=zmiany)
+@app.route('/delProdukty_Material',methods=['GET'])
+def delProdukty_Material():
+    if session['login']==1:
+        Produkty_Material_id=request.args.get('id', None)    
+        table='"Produkty_Material"'
+        sql=f'DELETE FROM public.{table} WHERE {table}.id={Produkty_Material_id};'
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return render_template('addproduct.html',usuniety=zmiany)
+
+@app.route('/addMaterial_Wykonczenie',methods=['GET'])
+def addMaterial_Wykonczenie():
+    if session['login']==1:
+        id_wykonczenie=request.args.get('id_wykonczenie', None)
+        id_material=request.args.get('id_material', None) 
+        table='"Material_Wykonczenie"'
+        sql=f'INSERT INTO public."Material_Wykonczenie"(id, "id_material", "id_wykonczenie")VALUES (DEFAULT, {id_material}, {id_wykonczenie});'
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return render_template('addproduct.html',usuniety=zmiany)
+@app.route('/delMaterial_Wykonczenie',methods=['GET'])
+def delMaterial_Wykonczenie():
+    if session['login']==1:
+        Material_Wykonczenie_id=request.args.get('id', None)    
+        table='"Material_Wykonczenie"'
+        sql=f'DELETE FROM public.{table} WHERE {table}.id={Material_Wykonczenie_id};'
         zmiany=bazkie_add_del(sql,table)
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
