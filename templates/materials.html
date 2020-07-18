@@ -30,6 +30,9 @@
         <div>Dane</div>
     </div>
     <script>
+        var polskieZnaki = ['%C4%85', '%C4%87', '%C4%99', '%C5%82', '%C5%84', '%C3%B3', '%C5%9B', '%C5%BA', '%C5%BC']
+        var uni = ['a', 'c', 'e', 'l', 'n', 'o', 's', 'z', 'z']
+
         function imageExists(image_url) {
             var http = new XMLHttpRequest();
             http.open('HEAD', image_url, false);
@@ -37,11 +40,20 @@
             return http.status != 404;
         }
         var zdjecia = document.getElementsByClassName('finish')
-        for(i=0; i<zdjecia.length; i++){
-            if(imageExists(zdjecia[i].src)){
-                continue
-            }else{
-                zdjecia[i].style="display:none"
+        for (i = 0; i < zdjecia.length; i++) {
+            var sou = zdjecia[i].src
+            for (k = 0; k < zdjecia[i].src.length; k++) {
+                if (zdjecia[i].src[k] == '%') {
+                    var znak = (zdjecia[i].src[k] + zdjecia[i].src[k + 1] + zdjecia[i].src[k + 2] + zdjecia[i].src[k + 3] + zdjecia[i].src[k + 4] + zdjecia[i].src[k + 5])
+                    if (polskieZnaki.includes(znak)) {
+                        var ind = polskieZnaki.indexOf(znak)
+                        var sou = sou.replace(polskieZnaki[ind], uni[ind])
+                    }
+                }
+            }
+            zdjecia[i].src = sou
+            if (imageExists(zdjecia[i].src)) {} else {
+                zdjecia[i].style = "display:none"
             }
         }
 
