@@ -330,4 +330,54 @@ def delMaterial_Wykonczenie():
         zmiany=bazkie_add_del(sql,table)
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
+
+@app.route('/addcena_material',methods=['GET'])
+def addcena_material():
+    if session['login']==1:
+        cena_za_metr=request.args.get('cena_za_metr', None)
+        id_material=request.args.get('id_material', None) 
+        table='"cena_material"'
+        sql=f'INSERT INTO public.{table}(id, "id_material", "cena_za_metr")VALUES (DEFAULT, {id_material}, {cena_za_metr});'
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return render_template('addproduct.html',usuniety=zmiany)
+@app.route('/delcena_material',methods=['GET'])
+def delcena_material():
+    if session['login']==1:
+        Material_Wykonczenie_id=request.args.get('id', None)    
+        table='"cena_material"'
+        sql=f'DELETE FROM public.{table} WHERE {table}.id={Material_Wykonczenie_id};'
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return render_template('addproduct.html',usuniety=zmiany)
+
+@app.route('/addcena_model',methods=['GET'])
+def addcena_model():
+    if session['login']==1:
+        cena=request.args.get('cena', None)
+        id_model=request.args.get('id_model', None) 
+        table='"cena_model"'
+        sql=f'INSERT INTO public.{table}(id, "id_model", "cena")VALUES (DEFAULT, {id_model}, {cena});'
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return render_template('addproduct.html',usuniety=zmiany)
+@app.route('/delcena_model',methods=['GET'])
+def delcena_model():
+    if session['login']==1:
+        Material_Wykonczenie_id=request.args.get('id', None)    
+        table='"cena_model"'
+        sql=f'DELETE FROM public.{table} WHERE {table}.id={Material_Wykonczenie_id};'
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return render_template('addproduct.html',usuniety=zmiany)
+@app.route('/selectquery_id',methods=['GET'])
+def selectquery_id():
+    if session['login']==1:
+        table=request.args.get('table',None)
+        table='"'+table+'"'
+        where_item=request.args.get('where_item',None)
+        where_value=request.args.get('where_value',None)
+        sql=f"Select * from public.{table} where {table}.{where_item}='{where_value}'"
+        print(bazkie_produkty(sql))
+        return render_template('addproduct.html') 
 app.run()
