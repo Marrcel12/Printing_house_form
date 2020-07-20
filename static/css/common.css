@@ -1,3 +1,24 @@
+@media all and (max-width: 992px){
+    #progressBar{
+        display: none !important;
+    }
+    #main a{
+        width: 80vw;
+    }
+    #list {
+    display: grid;
+    grid-template-columns: 100% !important;
+}
+}
+@media all and (min-width: 992px){
+    #main a{
+        width: 10vw;
+    }
+    #list {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+}
+}
 * {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
@@ -45,7 +66,6 @@ header img{
 }
 
 #main a {
-    width: 10vw;
     padding-bottom: 30px;
     display: inline-block;
     background-color: white;
@@ -64,11 +84,6 @@ header img{
 
 img {
     width: 100%;
-}
-
-#list {
-    display: grid;
-    grid-template-columns: 20% 20% 20% 20% 20%;
 }
 
 #list a {
