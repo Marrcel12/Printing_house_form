@@ -2,6 +2,8 @@ from flask import Flask, render_template, request,session,redirect,url_for
 from flask_mail import Mail, Message
 import base64
 import psycopg2
+import os
+import random
 app = Flask(__name__)
 app.config['SECRET_KEY']= 'qaz123'
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -138,33 +140,61 @@ def file(url):
     session['quantity'] = quantity
     return render_template('file.html')
 
-@app.route('/products/materials/methods/file/data/<url>')
-def data(url):
-    urlSplitted = url.split("!")
-    session["project"] =urlSplitted[0]
-    if(urlSplitted[1]=='l'):
-        session['plikType'] = 'link'
-        plik = bytearray.fromhex(urlSplitted[2]).decode()
-    else:
-        session['plikType'] = 'file'
-        plik = urlSplitted[2]
 
-    session["file"] = plik
-    return render_template('data.html', plik = plik)
+
+
+
+@app.route('/products/materials/methods/file/data/', methods=['GET', 'POST'])
+def data():
+    
+    if('projekt' in request.form):
+        session['project'] = 'on'
+    else:
+        session['project'] = 'off'
+    if(request.form['link']==""):
+        session['plikType'] = 'plik'
+        plik = (request.files['img'])
+        session['mimetype'] = plik.content_type
+        nazwaOst = str((random.random()*1000000000))[:8]
+        nazwa = plik.filename
+        nazwaSplitted = nazwa.split('.')
+        plik.save(os.path.join('G:\githubReps\Printing_house_form\\temp', '{}.{}'.format(nazwaOst, nazwa.split('.')[1])))
+        session['file'] = '{}.{}'.format(nazwaOst, nazwaSplitted[1])
+    else:
+        session['plikType'] = 'link'
+        session["file"] = request.form['link']
+    return render_template('data.html')
+
+
+
+
+
+
 @app.route('/products/materials/methods/file/data/submit/<url>')
 def submit(url):
     urlSplitted = url.split("!")
     session['dane']=urlSplitted
     projekt="nie"
     newss='nie'
-    if session['project']==True:
+    if session['project']=='on':
         projekt="tak"
     if session['dane'][6] == True:
         newss="tak"
-    text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Plik '+session["file"]+'\n Ilosc '+session['quantity']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n NIP '+session['dane'][2]+ "\n Adres "+session['dane'][3]+ " "+session['dane'][4]+" "+session['dane'][5]+"\n Czy newsletter " +newss+"\n Mail "+session['dane'][7]+'\n Numer tel '+session['dane'][8]+'\n Dodatkowy projekt '+projekt
-    msg = Message("Zlecenie",  recipients=['marcel72press@gmail.com'])
-    msg.body = text
-    mail.send(msg)
+    if session['plikType'] == 'link':
+        print
+        text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Plik '+session["file"]+'\n Ilosc '+session['quantity']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n NIP '+session['dane'][2]+ "\n Adres "+session['dane'][3]+ " "+session['dane'][4]+" "+session['dane'][5]+"\n Czy newsletter " +newss+"\n Mail "+session['dane'][7]+'\n Numer tel '+session['dane'][8]+'\n Dodatkowy projekt '+projekt
+        msg = Message("Zlecenie",  recipients=['adi.jobda@gmail.com'])
+        msg.body = text
+        mail.send(msg)
+    if session['plikType'] == 'plik':
+        text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Ilosc '+session['quantity']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n NIP '+session['dane'][2]+ "\n Adres "+session['dane'][3]+ " "+session['dane'][4]+" "+session['dane'][5]+"\n Czy newsletter " +newss+"\n Mail "+session['dane'][7]+'\n Numer tel '+session['dane'][8]+'\n Dodatkowy projekt '+projekt
+        msg = Message("Zlecenie",  recipients=['adi.jobda@gmail.com'])
+        msg.body = text
+        with app.open_resource(os.path.join('G:\githubReps\Printing_house_form\\temp',session['file'])) as fp:
+            msg.attach(session['file'], session['mimetype'], fp.read())
+        mail.send(msg)
+        os.remove(os.path.join('G:\githubReps\Printing_house_form\\temp',session['file']))
+    
     return render_template('submit.html')
 # adminpage
 @app.route('/login', methods= ['GET','POST'])

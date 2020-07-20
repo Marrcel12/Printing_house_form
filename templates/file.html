@@ -11,22 +11,22 @@
 
 <body>
     <header>
-        <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a> </header>
+<a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a>    </header>
     <div id="main">
-        <form action="javascript:void(0);">
-            <!--
+        <form action="data/" method ="post" enctype="multipart/form-data">
+            
             <h3>Dołącz plik który mamy wydrukować</h3>
-            <input id="plik" type="File" placeholder="Dodaj załącznik">
-            <h5>Maksymalny rozmiar pliku to 2,5MB</h5>
--->
+            <input id="plik" type="file" placeholder="Dodaj załącznik" name="img" accept=".jpg,.jpeg,.png,.pdf">
+            <h5>Przyjmujemy pliki JPG, PNG, oraz PDF</h5>
+
             <h4>Wklej link z plikiem</h4>
-            <input id="link" type="url" placeholder="Wklej link" vakue="">
+            <input id="link" type="url" placeholder="Wklej link" value="" name="link">
             <hr>
-            <input type="checkbox" id="req" required><strong>(wymagane)</strong> jestem świadom jakości wysyłanego przeze mnie pliku i tego, że przez napisy i loga umieszczone w projekcie nie dalej jak 4cm od krawędzi mogą przejść szycia
+            <input type="checkbox" id="req" required name="req"><strong>(wymagane)</strong> jestem świadom jakości wysyłanego przeze mnie pliku i tego, że przez napisy i loga umieszczone w projekcie nie dalej jak 4cm od krawędzi mogą przejść szycia
             <br>
-            <input id="project" type="checkbox">chcę, byście wykonali za mnie projekt (dodatkowo 200PLN)
+            <input id="project" type="checkbox" name="projekt">chcę, byście wykonali za mnie projekt (dodatkowo 200PLN)
             <br>
-            <button type="submit" onclick=(send())>Dalej</button>
+            <button type="submit" >Dalej</button>
         </form>
     </div>
     <div id="progressBar">
