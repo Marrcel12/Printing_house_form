@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icon.png') }}">
     <title>Drukarnia- wybierz rozmiar</title>
 </head>
 
 <body>
     <header>
-        <h2>Bodyfit</h2>
-    </header>
+        <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a> </header>
     <div id="main">
-       <h3>Wybierz rozmiar</h3>
+        <h3>Wybierz rozmiar</h3>
         <form action="javascript:void(0);">
             {%if sizing[0][0] != 'Dowolny ' %}
             {% for i in sizing %}
@@ -89,12 +89,13 @@
                     }
                 }
                 var sizes = size.split('x')
-                var sizes = sizes[0]+'x'+sizes[1]
+                var sizes = sizes[0] + 'x' + sizes[1]
                 if (size != "" && document.getElementById('qua').value != '') {
                     location.assign("file/" + sizes + "!" + document.getElementById("qua").value)
                 }
             }
         }
+
     </script>
 </body>
 

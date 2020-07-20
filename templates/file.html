@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icon.png') }}">
     <title>Drukarnia- wybierz plik</title>
 </head>
 
 <body>
     <header>
-        <h2>Plik</h2>
-    </header>
+        <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a> </header>
     <div id="main">
         <form action="javascript:void(0);">
-<!--
+            <!--
             <h3>Dołącz plik który mamy wydrukować</h3>
             <input id="plik" type="File" placeholder="Dodaj załącznik">
             <h5>Maksymalny rozmiar pliku to 2,5MB</h5>
@@ -28,8 +28,6 @@
             <br>
             <button type="submit" onclick=(send())>Dalej</button>
         </form>
-
-
     </div>
     <div id="progressBar">
         <div class="progressed">Produkt</div>
@@ -60,17 +58,14 @@
                     toBase64(document.getElementById("plik").files[0]).then(function(value) {
                         var base = value
                         base = base.replace(/\//g, ')')
-                        base =base.replace(/\+/g, "_")
-                        base =base.replace(/\=/g, "-")
-                        location.assign("data/" + document.getElementById("project").checked+"!p!"+base)
-
+                        base = base.replace(/\+/g, "_")
+                        base = base.replace(/\=/g, "-")
+                        location.assign("data/" + document.getElementById("project").checked + "!p!" + base)
                     })
-
                 } else {
                     var plik = document.getElementById('link').value
                     console.log(convertToHex(plik))
-                    location.assign("data/"+ document.getElementById("project").checked+"!l!"+convertToHex(plik))
-
+                    location.assign("data/" + document.getElementById("project").checked + "!l!" + convertToHex(plik))
                 }
             }
         }

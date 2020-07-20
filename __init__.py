@@ -64,13 +64,9 @@ def bazkie_add_del(sql,table):
     conn.close()
     return(result_before!=result_after)
 
-@app.route("/")
-def index():
-  
-   return "hello"
 
-@app.route('/start')
-def start():
+@app.route('/')
+def index():
     products= bazkie_produkty('select name from public."Produkty"')
     lista_produktow =[]
     for x in products:
