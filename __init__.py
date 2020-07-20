@@ -376,4 +376,31 @@ def selectquery_id():
         sql=f"Select * from public.{table} where {table}.{where_item}='{where_value}'"
         print(bazkie_produkty(sql))
         return render_template('addproduct.html') 
+# kody
+@app.route('/kodyselect',methods=['GET'])
+def kody():
+    kod_nazwa=request.args.get('nazwa',None)
+    sql=f"SELECT procent FROM public.kody where public.kody.nazwa = '{kod_nazwa}'"
+    kod=bazkie_produkty(sql)
+    print(kod[0])
+    return render_template('addproduct.html') 
+@app.route('/addkody',methods=['GET'])
+def addkody():
+    kod_nazwa=request.args.get('nazwa',None)
+    procent=request.args.get('procent',None)
+    table="kody"
+    sql=f"INSERT INTO public.kody(	nazwa, procent)	VALUES ('{kod_nazwa}', {procent});"
+    zmiany=bazkie_add_del(sql,table)
+    print(zmiany)
+    
+    return render_template('addproduct.html') 
+@app.route('/delkody',methods=['GET'])
+def delkody():
+    kod_nazwa=request.args.get('nazwa',None)
+    table="kody"
+    sql=f"DELETE FROM public.{table} WHERE {table}.nazwa='{kod_nazwa}';"
+    zmiany=bazkie_add_del(sql,table)
+    print(zmiany)
+    return render_template('addproduct.html') 
+
 app.run()
