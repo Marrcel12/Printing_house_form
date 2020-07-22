@@ -136,8 +136,10 @@ def methods(url):
 def file(url):
     size = url.split('!')[0]
     quantity = url.split('!')[1]
+    code = url.split('!')[2]
     session['size'] = size
     session['quantity'] = quantity
+    session['saveCode'] = code
     return render_template('file.html')
 
 
@@ -182,12 +184,12 @@ def submit(url):
         newss="tak"
     if session['plikType'] == 'link':
         print
-        text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Plik '+session["file"]+'\n Ilosc '+session['quantity']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n NIP '+session['dane'][2]+ "\n Adres "+session['dane'][3]+ " "+session['dane'][4]+" "+session['dane'][5]+"\n Czy newsletter " +newss+"\n Mail "+session['dane'][7]+'\n Numer tel '+session['dane'][8]+'\n Dodatkowy projekt '+projekt
+        text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Plik '+session["file"]+'\n Ilosc '+session['quantity']+'\n Kod rabatowy '+session['saveCode']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n NIP '+session['dane'][2]+ "\n Adres "+session['dane'][3]+ " "+session['dane'][4]+" "+session['dane'][5]+"\n Czy newsletter " +newss+"\n Mail "+session['dane'][7]+'\n Numer tel '+session['dane'][8]+'\n Dodatkowy projekt '+projekt
         msg = Message("Zlecenie",  recipients=['adi.jobda@gmail.com'])
         msg.body = text
         mail.send(msg)
     if session['plikType'] == 'plik':
-        text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Ilosc '+session['quantity']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n NIP '+session['dane'][2]+ "\n Adres "+session['dane'][3]+ " "+session['dane'][4]+" "+session['dane'][5]+"\n Czy newsletter " +newss+"\n Mail "+session['dane'][7]+'\n Numer tel '+session['dane'][8]+'\n Dodatkowy projekt '+projekt
+        text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Ilosc '+session['quantity']+'\n Kod rabatowy '+session['saveCode']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n NIP '+session['dane'][2]+ "\n Adres "+session['dane'][3]+ " "+session['dane'][4]+" "+session['dane'][5]+"\n Czy newsletter " +newss+"\n Mail "+session['dane'][7]+'\n Numer tel '+session['dane'][8]+'\n Dodatkowy projekt '+projekt
         msg = Message("Zlecenie",  recipients=['adi.jobda@gmail.com'])
         msg.body = text
         with app.open_resource(os.path.join('G:\githubReps\Printing_house_form\\temp',session['file'])) as fp:
@@ -412,8 +414,7 @@ def kody():
     kod_nazwa=request.args.get('nazwa',None)
     sql=f"SELECT procent FROM public.kody where public.kody.nazwa = '{kod_nazwa}'"
     kod=bazkie_produkty(sql)
-    print(kod[0])
-    return render_template('addproduct.html') 
+    return '{}'.format(kod[0]) 
 @app.route('/addkody',methods=['GET'])
 def addkody():
     kod_nazwa=request.args.get('nazwa',None)

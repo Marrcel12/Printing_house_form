@@ -39,7 +39,16 @@
             <input type="hidden" id="priceValue" value="{{sizing[0][1]}}">
             <button type="submit" onclick=(next())>Dalej</button>
             {% endif %}
+            <div id="kod">
+            <h3>Rabat (opcjonalne)</h3>
+            <input type="text" id="kodSave" placeholder="Wprowadź kod">
+            <button type="button" onclick="sprawdzKod()">Sprawdź kod</button>
+            <input type="hidden" id="wpisanyKod">
+            <br>
+            Przyznany rabat: <span id="kodValue">0</span>%
+        </div>
         </form>
+        
     </div>
     <div id="progressBar">
         <div class="progressed">Produkt</div>
@@ -52,11 +61,12 @@
     <script>
         function calPrice() {
             var hidIn = document.getElementById('hidd').value
+            var save = document.getElementById('kodValue').innerHTML
             if (hidIn == "custom") {
                 var price = document.getElementById('priceValue').value
                 console.log(price)
                 if (document.getElementById('qua').value != '' && document.getElementById('wid').value != '' && document.getElementById('hei').value != '') {
-                    document.getElementById("price").innerHTML = Math.round((document.getElementById("wid").value / 100) * (document.getElementById("hei").value / 100) * document.getElementById("qua").value * price)
+                    document.getElementById("price").innerHTML = Math.round((document.getElementById("wid").value / 100) * (document.getElementById("hei").value / 100) * document.getElementById("qua").value * price*(100-save)/100)
                 }
             }
             if (hidIn == "options") {
@@ -69,7 +79,7 @@
                 }
                 if (size != "" && document.getElementById('qua').value != '') {
                     var sizes = size.split('x')
-                    document.getElementById("price").innerHTML = (document.getElementById("qua").value * sizes[2])
+                    document.getElementById("price").innerHTML = (document.getElementById("qua").value * sizes[2]*(100-save)/100)
                 }
             }
         }
@@ -78,7 +88,12 @@
             var hidIn = document.getElementById('hidd').value
             if (hidIn == "custom") {
                 if (document.getElementById('qua').value != '' && document.getElementById('wid').value != '' && document.getElementById('hei').value != '') {
-                    location.assign("file/" + document.getElementById("wid").value + "x" + document.getElementById("hei").value + "!" + document.getElementById("qua").value)
+                    if(document.getElementById('kodValue').innerHTML!='0'){
+                        location.assign("file/" + document.getElementById("wid").value + "x" + document.getElementById("hei").value + "!" + document.getElementById("qua").value+'!'+document.getElementById('kodSave').value)
+                    }else{
+                        location.assign("file/" + document.getElementById("wid").value + "x" + document.getElementById("hei").value + "!" + document.getElementById("qua").value+'!Brak')
+                    }
+                    
                 }
             }
             if (hidIn == "options") {
@@ -92,7 +107,30 @@
                 var sizes = size.split('x')
                 var sizes = sizes[0] + 'x' + sizes[1]
                 if (size != "" && document.getElementById('qua').value != '') {
-                    location.assign("file/" + sizes + "!" + document.getElementById("qua").value)
+                    if(document.getElementById('kodValue').innerHTML!='0'){
+                        location.assign("file/" + sizes + "!" + document.getElementById("qua").value+'!'+document.getElementById('kodSave').value)
+                    }else{
+                        location.assign("file/" + sizes + "!" + document.getElementById("qua").value+'!Brak')
+                    }
+                    
+                }
+            }
+        }
+        
+        function sprawdzKod(){
+            var code = document.getElementById('kodSave').value
+            const Http = new XMLHttpRequest();
+            var url = 'http://127.0.0.1:5000/kodyselect?nazwa='+code
+            Http.open("GET", url)
+            Http.send()
+            Http.onreadystatechange=function(){
+                if(this.readyState==4 && this.status==200){
+                    document.getElementById('kodValue').innerHTML = Http.responseText
+                    document.getElementById('wpisanyKod').value=code
+                }
+                if(this.readyState==4 && this.status==500){
+                    alert('Wprowadzono błędny kod rabatowy, spróbuj ponownie')
+                    document.getElementById('kodValue').innerHTML=0
                 }
             }
         }
