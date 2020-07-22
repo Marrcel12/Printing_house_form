@@ -12,7 +12,8 @@
 
 <body>
     <header>
-        <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a> </header>
+        <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a>
+    </header>
     <div id="main">
         <div id="list">
             {% for i in methods %}
@@ -69,7 +70,6 @@
                 zdjecia[i].style = "display:none"
             }
         }
-
     </script>
 </body>
 
