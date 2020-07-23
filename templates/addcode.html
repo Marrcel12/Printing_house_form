@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj kod- Panel admina</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icon.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <header>
+        <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a>
+    </header>
+    <div id="main">
+        <h3>Dodaj kod rabatowy</h3>
+        <form action="javascript:void(0);">
+            <h4>Kod</h4>
+            <input type="text" id="code" placeholder="Wpisz kod" required>
+            <h4>Zniżka</h4>
+            <input type="number" id="save" placeholder="Procent zniżki" min="1" max="100" required style="width: 100px">
+            <br><br><br>
+            <button type="submit" onclick=(addCode())>Dodaj</button>
+        </form>
+    </div>
+
+    <script>
+        function addCode() {
+            var code = document.getElementById('code').value
+            var save = document.getElementById('save').value
+            if ((code != "" && save != ""&&save<=100) || (code != "" && save != 0&&save<=100)) {
+                const Http = new XMLHttpRequest();
+                var url = 'http://127.0.0.1:5000/addkodyrequest?nazwa=' + code + '&procent=' +save
+                Http.open("GET", url)
+                Http.send()
+                Http.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        location = '/kodyadmin'
+                    }
+                    if (this.readyState == 4 && this.status == 500) {
+                        alert('Wystąpił błąd, spróbuj ponownie')
+                    }
+                }
+            }
+
+        }
+    </script>
+</body>
+
+</html>

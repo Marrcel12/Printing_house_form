@@ -18,17 +18,12 @@
            <p class="alert">Złe hasło, spróbuj ponownie</p>
        {% endif %}
         <h3>Wpisz hasło</h3>
-        <form method="POST">
+        <form action="/adminpanel" method="POST">
         <input type="password" id="pass" name="password">
         <br>
-        <button onclick=login() type="submit">Zaloguj</button>
+        <button type="submit">Zaloguj</button>
     </form>
     </div>
-    <script>
-        function login(){
-            location.assign('/adminpanel/' + document.getElementById('pass').value )
-        }
-    </script>
 </body>
 
 </html>

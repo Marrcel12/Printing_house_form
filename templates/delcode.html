@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuń kody- Panel admina</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icon.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+    <header>
+        <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a>
+    </header>
+    <div id="main">
+        <h3>Wybierz, który kod chcesz usunąć</h3>
+        <div id="list">
+            {% for i in kody %}
+            <a onclick="delCode('{{i[0]}}')" class="listItem" style="cursor: pointer">
+                <p>
+                <span>
+                {{i[0]}}
+                <br>
+                {{i[1]}}%
+                </span></p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+<script>
+    var elementy = document.getElementsByClassName('listItem').length
+    window.onload = function() {
+        if (elementy == 1) {
+            document.getElementById('list').classList.add('list1')
+        } else if (elementy == 2) {
+            document.getElementById('list').classList.add('list2')
+        } else if (elementy == 3) {
+            document.getElementById('list').classList.add('list3')
+        } else if (elementy == 4) {
+            document.getElementById('list').classList.add('list4')
+        }
+    }
+    function delCode(code) {
+            const Http = new XMLHttpRequest();
+            var url = 'http://127.0.0.1:5000/delkody?nazwa=' + code
+            Http.open("GET", url)
+            Http.send()
+            Http.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    location = location
+                }
+                if (this.readyState == 4 && this.status == 500) {
+                    alert('Wystąpił błąd, spróbuj ponownie')
+                }
+            }
+        }
+</script>
+
+</html>

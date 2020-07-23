@@ -199,25 +199,26 @@ def submit(url):
     
     return render_template('submit.html')
 # adminpage
-@app.route('/login', methods= ['GET','POST'])
+@app.route('/login', )
 def login():
+    session['login']=0
+    return render_template('login.html', wrong=0)
+
+@app.route('/adminpanel', methods= ['GET','POST'])
+def adminpanel():
     if request.method =='POST':
         potencial_password = request.form['password']
         passwords=login_database('select password from public."passwords"')
        
         if potencial_password in passwords:
-            return redirect(url_for('adminpanel'))
-        else:
-            session['login']=0
+            session["login"]=1
+            return render_template('adminpanel.html')
+        else: 
             return render_template('login.html', wrong=1)
-            
-    return render_template('login.html', wrong=0)
-
-@app.route('/adminpanel')
-def adminpanel():
-        products= bazkie_produkty('select name from public."Produkty"')
-        session["login"]=1
-        return render_template('adminpanel.html' ,produkty = products)
+    else:
+        return render_template('login.html', wrong=0)
+    
+    return render_template('adminpanel.html')
 
 
 @app.route('/addproduct',methods=['GET'])
@@ -411,27 +412,65 @@ def selectquery_id():
 # kody
 @app.route('/kodyselect',methods=['GET'])
 def kody():
-    kod_nazwa=request.args.get('nazwa',None)
-    sql=f"SELECT procent FROM public.kody where public.kody.nazwa = '{kod_nazwa}'"
-    kod=bazkie_produkty(sql)
-    return '{}'.format(kod[0]) 
-@app.route('/addkody',methods=['GET'])
+    if session['login']==1:
+        kod_nazwa=request.args.get('nazwa',None)
+        sql=f"SELECT procent FROM public.kody where public.kody.nazwa = '{kod_nazwa}'"
+        kod=bazkie_produkty(sql)
+        return '{}'.format(kod[0])
+
+@app.route('/addkody')
 def addkody():
-    kod_nazwa=request.args.get('nazwa',None)
-    procent=request.args.get('procent',None)
-    table="kody"
-    sql=f"INSERT INTO public.kody(	nazwa, procent)	VALUES ('{kod_nazwa}', {procent});"
-    zmiany=bazkie_add_del(sql,table)
-    print(zmiany)
-    
-    return render_template('addproduct.html') 
+    if session['login']==1:
+        return render_template('addcode.html')
+
+@app.route('/addkodyrequest',methods=['GET'])
+def addkodyrequest():
+    if session['login']==1:
+        kod_nazwa=request.args.get('nazwa',None)
+        procent=request.args.get('procent',None)
+        table="kody"
+        sql=f"INSERT INTO public.kody(	nazwa, procent)	VALUES ('{kod_nazwa}', {procent});"
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return 'ok'
+
 @app.route('/delkody',methods=['GET'])
 def delkody():
-    kod_nazwa=request.args.get('nazwa',None)
-    table="kody"
-    sql=f"DELETE FROM public.{table} WHERE {table}.nazwa='{kod_nazwa}';"
-    zmiany=bazkie_add_del(sql,table)
-    print(zmiany)
-    return render_template('addproduct.html') 
+    if session['login']==1:
+        kod_nazwa=request.args.get('nazwa',None)
+        table="kody"
+        sql=f"DELETE FROM public.{table} WHERE {table}.nazwa='{kod_nazwa}';"
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return 'ok'
+
+@app.route('/showkody')
+def showkody():
+    if session['login']==1:
+        codes= bazkie_produkty_route('select * from public.kody', "")
+        print(codes)
+        return render_template('delcode.html', kody = codes)
+
+@app.route('/kodyadmin')
+def kodyadmin():
+    if session['login']==1:
+        return render_template('codes.html')
+
+@app.route('/changepass')
+def changepass():
+    if session['login']==1:
+        kod_nazwa=request.args.get('nazwa',None)
+        table = 'passwords'
+        sql=f"UPDATE public.passwords set password ='{kod_nazwa}' WHERE id=1;"
+        zmiany=bazkie_add_del(sql,table)
+        print(zmiany)
+        return 'ok'
+
+@app.route('/adminpassword')
+def adminpassword():
+    if session['login']==1:
+        return render_template('changepassword.html')
+    
+    
 
 app.run()
