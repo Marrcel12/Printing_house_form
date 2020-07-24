@@ -247,6 +247,7 @@ def addproduct():
         sql=f"INSERT INTO public.{table} (id, name)	VALUES (DEFAULT ,{product_name});"
         zmiany=bazkie_add_del(sql,table)
         sql = "select id from \"Produkty\" where name = '{}'".format(nazwa)
+        session['addProductName'] = nazwa
         session['product_id']=(bazkie_produkty(sql))
         return render_template('addmaterials.html', nazwa = nazwa)
     else:
@@ -268,6 +269,7 @@ def delproduct():
 def addmaterial():
     if session['login']==1:
         materials = (request.form.getlist('material'))
+        session['materialsList'] = materials
         desc = (request.form.getlist('desc'))
         materials_id = []
         table='"Material"'
@@ -299,12 +301,46 @@ def delmaterial():
 @app.route('/addwykonczenie',methods=['GET', 'POST']) 
 def addwykonczenie():
     if session['login']==1:
-        wykonczenie_name="'"+request.args.get('name',None)+"'"    
-        wykonczenie_desc="'"+request.args.get('desc',None)+"'"   
-        table='"Wykonczenie"'
-        sql=f'INSERT INTO public.{table}(id, name, opis)	VALUES (DEFAULT, {wykonczenie_name}, {wykonczenie_desc});'
-        zmiany=bazkie_add_del(sql,table)
-        return render_template('addproduct.html',usuniety=zmiany)
+        session['finishId']=[]
+        nazwaWykonczenia = (request.form.getlist('finish'))
+        pliki = (request.files.getlist('img'))
+        for x in pliki:
+            if x.filename != '':
+                plikSplitted = x.filename.split('.')
+                x.save(os.path.join('G:\githubReps\Printing_house_form\\static\img\\finishing', '{}.{}'.format('{}_{}'.format(session['addProductName'],nazwaWykonczenia[pliki.index(x)]), plikSplitted[1])))
+                
+        for x in session['materialsList']:
+            i=0+((session['materialsList'].index(x))*5)
+            finishId = []
+            table='"Wykonczenie"'
+            while i<(5+((session['materialsList'].index(x))*5)):
+                if(nazwaWykonczenia[i]!=''):
+                    product_name = "'"+nazwaWykonczenia[i]+"'"
+                    sql=f"INSERT INTO public.{table} (id, name, opis)	VALUES (DEFAULT ,{product_name}, null);"
+                    zmiany=bazkie_add_del(sql,table)
+                    sql = "select id from \"Wykonczenie\" where name = '{}'".format(nazwaWykonczenia[i])
+                    finishId.append(max(bazkie_produkty(sql)))
+                    for k in finishId:
+                        session['finishId'].append(k)
+                        sql = 'INSERT INTO public."Material_Wykonczenie" (id, "id_material", "id_wykonczenie") VALUES (DEFAULT, {}, {});'.format(session['material_id'][session['materialsList'].index(x)], k)
+                        bazkie_add_del(sql, '"Produkty_Material"')
+                i=i+1
+            wykonczeniaNazwy = []
+            for p in nazwaWykonczenia:
+                if p != '':
+                    wykonczeniaNazwy.append(p)
+            session['wykonczeniaNazwy'] = wykonczeniaNazwy
+        return render_template('addsizes.html', wyk = wykonczeniaNazwy)
+    
+@app.route('/addcenamaterial',methods=['GET', 'POST']) 
+def addCena():
+    if session['login']==1:
+        for x in session['material_id']:
+            sql = 'INSERT INTO public."cena_material" (id, "cena_za_metr", "id_material") VALUES (DEFAULT, {}, {});'.format(x, request.form.get('price'))
+            bazkie_add_del(sql, '"cena_material"')
+        sql
+        return render_template('addsuccess.html')
+    
 @app.route('/delwykonczenie',methods=['GET', 'POST']) 
 def delwykonczenie():
     if session['login']==1:
@@ -334,14 +370,7 @@ def delwykonczenie():
 #         print(zmiany)
 #         return render_template('addproduct.html',usuniety=zmiany)
 
-@app.route('/addmodel',methods=['GET', 'POST']) 
-def addModel():
-    if session['login']==1:
-        model_name="'"+request.args.get('name',None)+"'"     
-        table='"Model"'
-        sql=f'INSERT INTO public.{table}(id, name)	VALUES (DEFAULT, {model_name});'
-        zmiany=bazkie_add_del(sql,table)
-        return render_template('addproduct.html',usuniety=zmiany)
+
 @app.route('/delmodel',methods=['GET', 'POST']) 
 def delModel():
     if session['login']==1:

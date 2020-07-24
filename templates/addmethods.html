@@ -15,12 +15,36 @@
         <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a>
     </header>
     <div id="main">
-        <h3>Dodaj Wykończenia</h3>
-        <form action="" method="post" enctype="multipart/form-data" id="formMat">
-            
+        <h3>Dodaj  Wykończenia</h3>
+        <form action="/addwykonczenie" method="post" enctype="multipart/form-data" id="formMat">
+            {%for i in materials%}
+                    <input type="text" name="nazwa" value="{{i}}" readonly>
+                    <br><br>
+                    <input type="text" name="finish" placeholder="Nazwa wykończenia" required>
+                    <input type="file" placeholder="Dodaj załącznik" name="img" accept=".jpg,.jpeg,.png,.pdf">
+                    <br><br>
+                    <input type="text" name="finish" placeholder="Nazwa wykończenia">
+                    <input type="file" placeholder="Dodaj załącznik" name="img" accept=".jpg,.jpeg,.png,.pdf">
+                    <br><br>
+                    <input type="text" name="finish" placeholder="Nazwa wykończenia">
+                    <input type="file" placeholder="Dodaj załącznik" name="img" accept=".jpg,.jpeg,.png,.pdf">
+                    <br><br>
+                    <input type="text" name="finish" placeholder="Nazwa wykończenia">
+                    <input type="file" placeholder="Dodaj załącznik" name="img" accept=".jpg,.jpeg,.png,.pdf">
+                    <br><br>
+                    <input type="text" name="finish" placeholder="Nazwa wykończenia">
+                    <input type="file" placeholder="Dodaj załącznik" name="img" accept=".jpg,.jpeg,.png,.pdf">
+                    <hr>
+            {%endfor%}
+            <button type="submit">Dodaj</button>
         </form>
     </div>
-
+<script>
+        var potwierdz = confirm("Czy produkt będzie miał wykończenia do wyboru?")
+        if(!potwierdz){
+            document.getElementById('formMat').innerHTML= '{%for i in materials%} <input type="text" name="nazwa" value="{{i}}" readonly><br><br><input type="text" name="finish" value="none_{{i}}" readonly><input type="hidden" name="finish" value="" readonly><input type="hidden" name="finish" value="" readonly><input type="hidden" name="finish" value="" readonly><input type="hidden" name="finish" value="" readonly><hr>{%endfor%}<button type="submit">Dodaj</button>'
+        }
+    </script>
 </body>
 
 </html>
