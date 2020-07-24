@@ -220,20 +220,39 @@ def adminpanel():
     
     return render_template('adminpanel.html')
 
+@app.route('/adminproduct')
+def adminproduct():
+    if session['login']==1:
+        return render_template('adminproduct.html')
+    else:
+        return render_template('login.html', wrong=0)
 
-@app.route('/addproduct',methods=['GET'])
+@app.route('/addproductstart')
+def addproductstart():
+    if session['login']==1:
+        return render_template('addproductstart.html')
+    else:
+        return render_template('login.html', wrong=0)
+    
+
+@app.route('/addproduct',methods=['GET', 'POST'])
 def addproduct():
     if session['login']==1:
-        product_name=request.args.get('name', None)
-        product_name="'"+product_name+"'"
+        plik = (request.files['img'])
+        nazwa = (request.form['nazwa'])
+        plikSplitted = plik.filename.split('.')
+        plik.save(os.path.join('G:\githubReps\Printing_house_form\\static\img\products', '{}.{}'.format(nazwa, plikSplitted[1])))
+        product_name="'"+nazwa+"'"
         table='"Produkty"'
         sql=f"INSERT INTO public.{table} (id, name)	VALUES (DEFAULT ,{product_name});"
         zmiany=bazkie_add_del(sql,table)
-        print(zmiany)
-        return render_template('addproduct.html',dodany=zmiany)
+        sql = "select id from \"Produkty\" where name = '{}'".format(nazwa)
+        session['product_id']=(bazkie_produkty(sql))
+        return render_template('addmaterials.html', nazwa = nazwa)
     else:
         return render_template('login.html', wrong=0)
-@app.route('/delproduct',methods=['GET'])
+    
+@app.route('/delproduct',methods=['GET', 'POST'])
 def delproduct():
     if session['login']==1:
         product_id=request.args.get('id', None)
@@ -245,16 +264,29 @@ def delproduct():
     else:
         return render_template('login.html', wrong=0)
 
-@app.route('/addmaterial',methods=['GET']) 
+@app.route('/addmaterial',methods=['GET', 'POST']) 
 def addmaterial():
     if session['login']==1:
-        material_name="'"+request.args.get('name',None)+"'"    
-        material_desc="'"+request.args.get('desc',None)+"'"   
+        materials = (request.form.getlist('material'))
+        desc = (request.form.getlist('desc'))
+        materials_id = []
         table='"Material"'
-        sql=f'INSERT INTO public.{table}(id, name, opis)	VALUES (DEFAULT, {material_name}, {material_desc});'
-        zmiany=bazkie_add_del(sql,table)
-        return render_template('addproduct.html',usuniety=zmiany)
-@app.route('/delmaterial',methods=['GET']) 
+        for x in materials:
+            product_name = "'"+x+"'"
+            opis = "'"+desc[materials.index(x)]+"'"
+            sql=f"INSERT INTO public.{table} (id, name, opis)	VALUES (DEFAULT ,{product_name}, {opis});"
+            zmiany=bazkie_add_del(sql,table)
+            sql = "select id from \"Material\" where name = '{}'".format(x)
+            materials_id.append(max(bazkie_produkty(sql)))
+        session['material_id'] = materials_id
+        for k in materials_id:
+            sql = 'INSERT INTO public."Produkty_Material" (id, "Material_id", "Produkty_id") VALUES (DEFAULT, {}, {});'.format(k, session['product_id'][0])
+            bazkie_add_del(sql, '"Produkty_Material"')
+        return render_template('addmethods.html', materials = materials)
+    else:
+        return render_template('login.html', wrong=0)
+    
+@app.route('/delmaterial',methods=['GET', 'POST']) 
 def delmaterial():
     if session['login']==1:
         material_id=request.args.get('id', None)    
@@ -264,7 +296,7 @@ def delmaterial():
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
 
-@app.route('/addwykonczenie',methods=['GET']) 
+@app.route('/addwykonczenie',methods=['GET', 'POST']) 
 def addwykonczenie():
     if session['login']==1:
         wykonczenie_name="'"+request.args.get('name',None)+"'"    
@@ -273,7 +305,7 @@ def addwykonczenie():
         sql=f'INSERT INTO public.{table}(id, name, opis)	VALUES (DEFAULT, {wykonczenie_name}, {wykonczenie_desc});'
         zmiany=bazkie_add_del(sql,table)
         return render_template('addproduct.html',usuniety=zmiany)
-@app.route('/delwykonczenie',methods=['GET']) 
+@app.route('/delwykonczenie',methods=['GET', 'POST']) 
 def delwykonczenie():
     if session['login']==1:
         wykonczenie_id=request.args.get('id', None)    
@@ -283,7 +315,7 @@ def delwykonczenie():
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
 
-# @app.route('/addmaterial',methods=['GET']) 
+# @app.route('/addmaterial',methods=['GET', 'POST']) 
 # def addMaterial():
 #     if session['login']==1:
 #         material_name="'"+request.args.get('name',None)+"'"    
@@ -292,7 +324,7 @@ def delwykonczenie():
 #         sql=f'INSERT INTO public.{table}(id, name, opis)	VALUES (DEFAULT, {wykonczenie_name}, {wykonczenie_desc});'
 #         zmiany=bazkie_add_del(sql,table)
 #         return render_template('addproduct.html',usuniety=zmiany)
-# @app.route('/delmaterial',methods=['GET']) 
+# @app.route('/delmaterial',methods=['GET', 'POST']) 
 # def delMaterial():
 #     if session['login']==1:
 #         material_id=request.args.get('id', None)    
@@ -302,7 +334,7 @@ def delwykonczenie():
 #         print(zmiany)
 #         return render_template('addproduct.html',usuniety=zmiany)
 
-@app.route('/addmodel',methods=['GET']) 
+@app.route('/addmodel',methods=['GET', 'POST']) 
 def addModel():
     if session['login']==1:
         model_name="'"+request.args.get('name',None)+"'"     
@@ -310,7 +342,7 @@ def addModel():
         sql=f'INSERT INTO public.{table}(id, name)	VALUES (DEFAULT, {model_name});'
         zmiany=bazkie_add_del(sql,table)
         return render_template('addproduct.html',usuniety=zmiany)
-@app.route('/delmodel',methods=['GET']) 
+@app.route('/delmodel',methods=['GET', 'POST']) 
 def delModel():
     if session['login']==1:
         model_id=request.args.get('id', None)    
@@ -320,7 +352,7 @@ def delModel():
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
 # add relations
-@app.route('/addProdukty_Material',methods=['GET'])
+@app.route('/addProdukty_Material',methods=['GET', 'POST'])
 def addProdukty_Material():
     if session['login']==1:
         id_produkty=request.args.get('id_produkty', None)
@@ -330,7 +362,7 @@ def addProdukty_Material():
         zmiany=bazkie_add_del(sql,table)
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
-@app.route('/delProdukty_Material',methods=['GET'])
+@app.route('/delProdukty_Material',methods=['GET', 'POST'])
 def delProdukty_Material():
     if session['login']==1:
         Produkty_Material_id=request.args.get('id', None)    
@@ -340,7 +372,7 @@ def delProdukty_Material():
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
 
-@app.route('/addMaterial_Wykonczenie',methods=['GET'])
+@app.route('/addMaterial_Wykonczenie',methods=['GET', 'POST'])
 def addMaterial_Wykonczenie():
     if session['login']==1:
         id_wykonczenie=request.args.get('id_wykonczenie', None)
@@ -350,7 +382,7 @@ def addMaterial_Wykonczenie():
         zmiany=bazkie_add_del(sql,table)
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
-@app.route('/delMaterial_Wykonczenie',methods=['GET'])
+@app.route('/delMaterial_Wykonczenie',methods=['GET', 'POST'])
 def delMaterial_Wykonczenie():
     if session['login']==1:
         Material_Wykonczenie_id=request.args.get('id', None)    
@@ -360,7 +392,7 @@ def delMaterial_Wykonczenie():
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
 
-@app.route('/addcena_material',methods=['GET'])
+@app.route('/addcena_material',methods=['GET', 'POST'])
 def addcena_material():
     if session['login']==1:
         cena_za_metr=request.args.get('cena_za_metr', None)
@@ -370,7 +402,7 @@ def addcena_material():
         zmiany=bazkie_add_del(sql,table)
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
-@app.route('/delcena_material',methods=['GET'])
+@app.route('/delcena_material',methods=['GET', 'POST'])
 def delcena_material():
     if session['login']==1:
         Material_Wykonczenie_id=request.args.get('id', None)    
@@ -380,7 +412,7 @@ def delcena_material():
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
 
-@app.route('/addcena_model',methods=['GET'])
+@app.route('/addcena_model',methods=['GET', 'POST'])
 def addcena_model():
     if session['login']==1:
         cena=request.args.get('cena', None)
@@ -390,7 +422,7 @@ def addcena_model():
         zmiany=bazkie_add_del(sql,table)
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
-@app.route('/delcena_model',methods=['GET'])
+@app.route('/delcena_model',methods=['GET', 'POST'])
 def delcena_model():
     if session['login']==1:
         Material_Wykonczenie_id=request.args.get('id', None)    
@@ -399,7 +431,7 @@ def delcena_model():
         zmiany=bazkie_add_del(sql,table)
         print(zmiany)
         return render_template('addproduct.html',usuniety=zmiany)
-@app.route('/selectquery_id',methods=['GET'])
+@app.route('/selectquery_id',methods=['GET', 'POST'])
 def selectquery_id():
     if session['login']==1:
         table=request.args.get('table',None)
@@ -410,7 +442,7 @@ def selectquery_id():
         print(bazkie_produkty(sql))
         return render_template('addproduct.html') 
 # kody
-@app.route('/kodyselect',methods=['GET'])
+@app.route('/kodyselect',methods=['GET', 'POST'])
 def kody():
     if session['login']==1:
         kod_nazwa=request.args.get('nazwa',None)
@@ -423,7 +455,7 @@ def addkody():
     if session['login']==1:
         return render_template('addcode.html')
 
-@app.route('/addkodyrequest',methods=['GET'])
+@app.route('/addkodyrequest',methods=['GET', 'POST'])
 def addkodyrequest():
     if session['login']==1:
         kod_nazwa=request.args.get('nazwa',None)
@@ -434,7 +466,7 @@ def addkodyrequest():
         print(zmiany)
         return 'ok'
 
-@app.route('/delkody',methods=['GET'])
+@app.route('/delkody',methods=['GET', 'POST'])
 def delkody():
     if session['login']==1:
         kod_nazwa=request.args.get('nazwa',None)

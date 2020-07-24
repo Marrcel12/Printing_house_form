@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drukarnia- Panel admina</title>
+    <title>Produkty- Panel admina</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/icon.png') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,16 +15,13 @@
         <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a>
     </header>
     <div id="main">
-        <h3>Wybierz czym chcesz zarządzać</h3>
+        <h3>Co chcesz zrobić</h3>
         <div id="list">
-            <a href='adminproduct' class="listItem">
-                <p><span>Produkty</span></p>
+            <a href='/addproductstart' class="listItem">
+                <p><span>Dodaj produkt</span></p>
             </a>
-            <a href='kodyadmin' class="listItem">
-                <p><span>Kody rabatowe</span></p>
-            </a>
-            <a href='adminpassword' class="listItem">
-                <p><span>Hasło</span></p>
+            <a href='/delproduct' class="listItem">
+                <p><span>Usuń produkt</span></p>
             </a>
         </div>
     </div>
