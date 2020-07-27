@@ -350,6 +350,25 @@ def addCena():
             for x in session['material_id']:
                 sql = 'INSERT INTO public."cena_material" (id, "cena_za_metr", "id_material") VALUES (DEFAULT, {}, {});'.format(x, request.form.getlist('price')[session['material_id'].index(x)])
                 bazkie_add_del(sql, '"cena_material"')
+        if(request.form.get('model')=='set'):
+            wykonczenieCenaRozmiar = []
+            for x in request.form.getlist('finish'):
+                i = 0+request.form.getlist('finish').index(x)*4
+                while i<4+request.form.getlist('finish').index(x)*4:
+                    if request.form.getlist('price')[i] != '':
+                        if request.form.getlist('size')[i] != '':
+                            wykonczenieCenaRozmiar.append((x, '{}_{}'.format(request.form.getlist('size')[i], x), request.form.getlist('price')[i]))
+                    i=i+1
+            for k in wykonczenieCenaRozmiar:
+                sql= 'INSERT INTO public."Model"(id, name) VALUES (DEFAULT, \'{}\');'.format(k[1])
+                bazkie_add_del(sql,'\"Model\"')
+                finish_id = max(bazkie_produkty('Select id from "Wykonczenie" where name = \'{}\''.format(k[0])))
+                model_id = max(bazkie_produkty('Select id from "Model" where name = \'{}\''.format(k[1])))
+                sql = 'INSERT INTO public."Wykonczenie_Model" (id, id_wykonczenie, id_model) VALUES (DEFAULT, {}, {});'.format(finish_id, model_id)
+                bazkie_add_del(sql, '\"Wykonczenie_Model\"')
+                sql = 'INSERT INTO public."cena_model" (id, cena, id_model) VALUES (DEFAULT, {}, {});'.format(k[2], model_id)
+                bazkie_add_del(sql, '\"cena_model\"')
+                
         
         return render_template('addsuccess.html')
     
