@@ -15,13 +15,14 @@
         <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a>
     </header>
     <div id="main">
-        <h3>Dodaj Rozmiary/ceny</h3>        
+        <h3>Dodaj Rozmiary/ceny</h3>  
+              
     </div>
 <script>
  if(confirm("Czy produkt będzie miał narzucone rozmiary?")){
-     document.getElementById('main').innerHTML+='<form action="/addcena"method="post">{%for i in wyk%}<input type="text"name="finish"value="{{i}}"><br><br><input type="text"placeholder="Wymiar"name="size"><input type="number"name="price"placeholder="cena"><br><br><input type="text"placeholder="Wymiar"name="size"><input type="number"name="price"placeholder="cena"><br><br><input type="text"placeholder="Wymiar"name="size"><input type="number"name="price"placeholder="cena"><br><br><input type="text"placeholder="Wymiar"name="size"><input type="number"name="price"placeholder="cena"><hr>{%endfor%}<button type="submit">Dodaj</button></form>'
+     document.getElementById('main').innerHTML+='<form action="/addcena"method="post">{%for i in wyk%}<input type="text"name="finish"value="{{i}}"><br><br><input type="text"placeholder="Wymiar"name="size"><input type="number"name="price"placeholder="cena"><br><br><input type="text"placeholder="Wymiar"name="size"><input type="number"name="price"placeholder="cena"><br><br><input type="text"placeholder="Wymiar"name="size"><input type="number"name="price"placeholder="cena"><br><br><input type="text"placeholder="Wymiar"name="size"><input type="number"name="price"placeholder="cena"><hr>{%endfor%}<input type="text" name="model" readonly value="set" style="visibility: hidden;width:0"><button type="submit">Dodaj</button></form>'
  }else{
-     document.getElementById('main').innerHTML += '<form action="/addcenamaterial" method="post" enctype="multipart/form-data" id="formMat"><input type="number" name="price" placeholder="Podaj cenę za metr"><button type="submit">Dodaj</button></form>'
+     document.getElementById('main').innerHTML += '<form action="/addcenamaterial" method="post" enctype="multipart/form-data" id="formMat"><input type="number" name="price" placeholder="Podaj cenę za metr"><input type="text" name="model" readonly value="custom" style="visibility: hidden; width:0"><button type="submit">Dodaj</button></form>'
  }    
 </script>
 </body>

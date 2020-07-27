@@ -335,10 +335,18 @@ def addwykonczenie():
 @app.route('/addcenamaterial',methods=['GET', 'POST']) 
 def addCena():
     if session['login']==1:
-        for x in session['material_id']:
-            sql = 'INSERT INTO public."cena_material" (id, "cena_za_metr", "id_material") VALUES (DEFAULT, {}, {});'.format(x, request.form.get('price'))
-            bazkie_add_del(sql, '"cena_material"')
-        sql
+        if(request.form.get('model')=='custom'):
+            wykonczeniaId = []
+            for k in session['wykonczeniaNazwy']:
+                sql = "select id from \"Wykonczenie\" where name = '{}'".format(k)
+                wykonczeniaId.append(max(bazkie_produkty(sql)))
+            for t in wykonczeniaId:
+                sql = 'INSERT INTO public."Wykonczenie_Model" (id, "id_wykonczenie", "id_model") VALUES (DEFAULT, {}, 1);'.format(t)
+                bazkie_add_del(sql, '"Wykonczenie_Model"')
+            for x in session['material_id']:
+                sql = 'INSERT INTO public."cena_material" (id, "cena_za_metr", "id_material") VALUES (DEFAULT, {}, {});'.format(x, request.form.get('price'))
+                bazkie_add_del(sql, '"cena_material"')
+        
         return render_template('addsuccess.html')
     
 @app.route('/delwykonczenie',methods=['GET', 'POST']) 
