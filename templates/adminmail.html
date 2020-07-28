@@ -30,7 +30,7 @@
             if(mail != ''){
                 if (confirm('Czy na pewno zmienić adres?')){
                     const Http = new XMLHttpRequest();
-                    var url = 'http://127.0.0.1:5000/changemail?address=' + mail
+                    var url = 'http://217.182.78.48:5000/changemail?address=' + mail
                     Http.open("GET", url)
                     Http.send()
                     Http.onreadystatechange = function() {

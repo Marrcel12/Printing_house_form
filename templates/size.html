@@ -19,8 +19,8 @@
         <form action="javascript:void(0);">
             {%if sizing[0][0] != 'Dowolny ' %}
             {% for i in sizing %}
-            <input type="radio" name="size" value="{{i[0]}}x{{i[1]}}" required>{{i[0]}}
-            <br>
+            <input type="radio" name="size" value="{{i[0]}}x{{i[1]}}" class="selectSize" required><span class="selectSizeText">{{i[0]}}<br></span>
+            
             {% endfor %}
             <input type="number" placeholder="Ilość sztuk" id="qua" min="1" required>
             <button onclick=(calPrice())>Wylicz cenę</button>
@@ -121,7 +121,7 @@
         function sprawdzKod() {
             var code = document.getElementById('kodSave').value
             const Http = new XMLHttpRequest();
-            var url = 'http://127.0.0.1:5000/kodyselect?nazwa=' + code
+            var url = '/kodyselect?nazwa=' + code
             Http.open("GET", url)
             Http.send()
             Http.onreadystatechange = function() {
@@ -135,6 +135,24 @@
                 }
             }
         }
+        window.onload = function() {
+            var selectRadios = document.getElementsByClassName('selectSize')
+            var values = []
+            var disabledElements = []
+            for(i=0; i< selectRadios.length; i++){
+                if(values.includes(selectRadios[i].value)){
+                    disabledElements.push([selectRadios[i], i])
+                }else{
+                    values.push(selectRadios[i].value)
+                }
+            }
+            console.log(disabledElements)
+            for(i=0; i<disabledElements.length;i++){
+                disabledElements[i][0].style.display = "none";
+                disabledElements[i][0].style.height = "0px"
+                document.getElementsByClassName('selectSizeText')[disabledElements[i][1]].innerHTML = ''
+            }
+        };
     </script>
 </body>
 
