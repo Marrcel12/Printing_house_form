@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zmień e-mail- Panel admina</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icon.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <header>
+        <a href="/adminpanel"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a>
+    </header>
+    <div id="main">
+        <h3>Aktualny adres wysyłania zleceń: </h3>
+        <h4>{{mail[0]}}</h4>
+        <h3>Ustaw nowy adres:</h3>
+        <input type="email" id="newMail" placeholder="Adres e-mail">
+        <br>
+        <br>
+        <button type="button" onclick="set()">Ustaw</button>
+        
+    </div>
+    <script>
+        function set(){
+            var mail = document.getElementById('newMail').value
+            if(mail != ''){
+                if (confirm('Czy na pewno zmienić adres?')){
+                    const Http = new XMLHttpRequest();
+                    var url = 'http://127.0.0.1:5000/changemail?address=' + mail
+                    Http.open("GET", url)
+                    Http.send()
+                    Http.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            alert('Adres został zmieniony')
+                            location.replace('/adminpanel')
+                        }
+                        if ((this.readyState == 4 && this.status == 500) || (this.readyState == 4 && this.status == 404)) {
+                            alert('Wystąpił błąd, spróbuj ponownie')
+                        }
+                    }
+                }else{
+                alert('Anulowano zmianę mail')
+                }
+            }else{
+                alert('Pole na adres e-mail jest puste')
+            }
+        }
+        
+
+    </script>
+
+</body>
+
+</html>

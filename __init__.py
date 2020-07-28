@@ -179,6 +179,7 @@ def submit(url):
     session['dane']=urlSplitted
     projekt="nie"
     newss='nie'
+    address = bazkie_produkty("Select address from public.sending_mail;")
     if session['project']=='on':
         projekt="tak"
     if session['dane'][6] == True:
@@ -186,12 +187,12 @@ def submit(url):
     if session['plikType'] == 'link':
         print
         text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Plik '+session["file"]+'\n Ilosc '+session['quantity']+'\n Kod rabatowy '+session['saveCode']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n NIP '+session['dane'][2]+ "\n Adres "+session['dane'][3]+ " "+session['dane'][4]+" "+session['dane'][5]+"\n Czy newsletter " +newss+"\n Mail "+session['dane'][7]+'\n Numer tel '+session['dane'][8]+'\n Dodatkowy projekt '+projekt
-        msg = Message("Zlecenie",  recipients=['adi.jobda@gmail.com'])
+        msg = Message("Zlecenie",  recipients=address)
         msg.body = text
         mail.send(msg)
     if session['plikType'] == 'plik':
         text='Cześć masz nowe zlecenie! \n Produkt ' +session['product']+'\n Material '+session['material']+'\n Wykonczenie '+session['method']+'\n Rozmiar '+session['size'] +'\n Ilosc '+session['quantity']+'\n Kod rabatowy '+session['saveCode']+'\n Imie nazwisko zamawiajacego '+session['dane'][0]+'\n Nazwa firmy '+session['dane'][1]+'\n NIP '+session['dane'][2]+ "\n Adres "+session['dane'][3]+ " "+session['dane'][4]+" "+session['dane'][5]+"\n Czy newsletter " +newss+"\n Mail "+session['dane'][7]+'\n Numer tel '+session['dane'][8]+'\n Dodatkowy projekt '+projekt
-        msg = Message("Zlecenie",  recipients=['adi.jobda@gmail.com'])
+        msg = Message("Zlecenie",  recipients=address)
         msg.body = text
         with app.open_resource(os.path.join('G:\githubReps\Printing_house_form\\temp',session['file'])) as fp:
             msg.attach(session['file'], session['mimetype'], fp.read())
@@ -479,7 +480,8 @@ def adminpassword():
 @app.route('/adminmail')
 def adminmail():
     if session['login']==1:
-        return render_template('adminmail.html')
+        mail = bazkie_produkty("Select address from public.sending_mail;")
+        return render_template('adminmail.html', mail=mail)
     
     
 
