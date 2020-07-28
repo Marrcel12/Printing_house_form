@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuń kody- Panel admina</title>
+    <title>Usuń produkt- panel admina</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/icon.png') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,21 +16,23 @@
         <a href="/adminpanel"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"></a>
     </header>
     <div id="main">
-        <h3>Wybierz, który kod chcesz usunąć</h3>
+        <h3>Wybierz jaki produkt chcesz usunąć</h3>
         <div id="list">
-            {% for i in kody %}
-            <a onclick="delCode('{{i[0]}}')" class="listItem" style="cursor: pointer">
-                <p>
-                <span>
-                {{i[0]}}
-                <br>
-                {{i[1]}}%
-                </span></p>
+            {% for i in produkty %}
+            <a href='/delproducts/{{i}}' class="listItem">
+                <p><span>{{i}}</span></p>
             </a>
             {% endfor %}
         </div>
     </div>
-
+    <div id="progressBar">
+        <div>Produkt</div>
+        <div>Materiał</div>
+        <div>Wykończenie</div>
+        <div>Rozmiar</div>
+        <div>Plik</div>
+        <div>Dane</div>
+    </div>
 </body>
 <script>
     var elementy = document.getElementsByClassName('listItem').length
@@ -45,20 +47,6 @@
             document.getElementById('list').classList.add('list4')
         }
     }
-    function delCode(code) {
-            const Http = new XMLHttpRequest();
-            var url = 'http://127.0.0.1:5000/delkody?nazwa=' + code
-            Http.open("GET", url)
-            Http.send()
-            Http.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    location = location
-                }
-                if (this.readyState == 4 && this.status == 500) {
-                    alert('Wystąpił błąd, spróbuj ponownie')
-                }
-            }
-        }
 </script>
 
 </html>

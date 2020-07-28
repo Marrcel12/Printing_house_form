@@ -30,6 +30,7 @@
             <button type="submit" onclick=(next())>Dalej</button>
             {% endif %}
             {%if sizing[0][0]=='Dowolny '%}
+            <input value="{{sizing[0][1]}}" id="priceValue" style="visibility: hidden"><br>
             <input type="number" placeholder="Szerokość(cm)" min="1" id="wid" required>
             <input type="number" placeholder="Wysokość(cm)" min="1" id="hei" required>
             <input type="number" placeholder="Ilość sztuk" min="1" id="qua" required>
@@ -37,7 +38,6 @@
             <p class="price">Cena orientacyjna: <span id="price">0</span>zł</p>
             <br>
             <input type="hidden" id="hidd" value="custom">
-            <input type="hidden" id="priceValue" value="{{sizing[0][1]}}">
             <button type="submit" onclick=(next())>Dalej</button>
             {% endif %}
             <div id="kod">
