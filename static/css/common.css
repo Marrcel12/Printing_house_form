@@ -123,3 +123,23 @@ a p {
 .list4{
     grid-template-columns: 25% 25% 25% 25% !important;
 }
+#cookiesPopUp{
+    background-color: #464646;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    width: 200px;
+    right: 40px;
+    bottom: 95px;
+}
+#cookiesPopUp>p:first-of-type{
+    font-size: 20px;
+}
+#cookiesPopUp>button{
+    background-color: black;
+    color: white;
+    border: none;
+    font-size:16px;
+    padding: 5px;
+    cursor: pointer;
+}
