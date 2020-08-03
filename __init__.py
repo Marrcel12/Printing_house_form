@@ -149,23 +149,25 @@ def file(url):
 
 @app.route('/products/materials/methods/file/data/', methods=['GET', 'POST'])
 def data():
-    
     if('projekt' in request.form):
         session['project'] = 'on'
-    else:
-        session['project'] = 'off'
-    if(request.form['link']==""):
-        session['plikType'] = 'plik'
-        plik = (request.files['img'])
-        session['mimetype'] = plik.content_type
-        nazwaOst = str((random.random()*1000000000))[:8]
-        nazwa = plik.filename
-        nazwaSplitted = nazwa.split('.')
-        plik.save(os.path.join('G:\githubReps\Printing_house_form\\temp', '{}.{}'.format(nazwaOst, nazwa.split('.')[1])))
-        session['file'] = '{}.{}'.format(nazwaOst, nazwaSplitted[1])
-    else:
         session['plikType'] = 'link'
-        session["file"] = request.form['link']
+        session["file"] = "Brak"
+
+    else:
+        if(request.form['link']==""):
+            session['plikType'] = 'plik'
+            plik = (request.files['img'])
+            session['mimetype'] = plik.content_type
+            nazwaOst = str((random.random()*1000000000))[:8]
+            nazwa = plik.filename
+            nazwaSplitted = nazwa.split('.')
+            plik.save(os.path.join('G:\githubReps\Printing_house_form\\temp', '{}.{}'.format(nazwaOst, nazwa.split('.')[1])))
+            session['file'] = '{}.{}'.format(nazwaOst, nazwaSplitted[1])
+        else:
+            session['plikType'] = 'link'
+            session["file"] = request.form['link']
+    
     return render_template('data.html')
 
 
