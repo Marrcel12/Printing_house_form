@@ -16,7 +16,9 @@
     </header>
     <div id="main">
         <h2>Formularz zamówienia</h2>
+        <div id="textContainer" style="text-align: justify">
         <span>Administratorem Twoich danych osobowych podanych w formularzu jest Robert Ruszkiewicz, prowadzący działalność gospodarczą pod firmą "Robert Ruszkiewicz”, ul. Jodłowa 14, 72-100 Goleniów, NIP: 8561766212. Szczegóły związane z przetwarzaniem danych osobowych znajdują się w polityce prywatności.</span>
+        </div>
         <form action="javascript:void(0);">
             <h3>Podaj imię i nazwisko</h3>
             <input type="text" id="nameSurname" placeholder="Imię i nazwisko" required>
@@ -31,9 +33,12 @@
             <input type="email" id="mail" placeholder="Aders e-mail" required>
             <input type="tel" id="tel" placeholder="Nr telefonu">
             <h3>Zgody</h3>
+            <div id="textContainer">
             <input type="checkbox" id="regulamin" required>Zapoznałem się z regulaminem i polityką prywatności.
-            <br>
+            </div>
+            <div id="textContainer" style="text-align: justify">
             <input type="checkbox" id="newsletter">Wyrażam dobrowolną zgodę na przetwarzanie podanych przeze mnie danych osobowych przez Roberta Ruszkiewicza prowadzącego działalność pod firmą Robert Ruszkiewicz z siedzibą ul. Jodłowa 14, 72-100 Goleniów (NIP: 8561766212) w celach marketingowych, w tym w celu realizacji usługi wysyłania Newslettera na podany przeze mnie adres e-mail. Więcej informacji w polityce prywatności.
+            </div>
             <br>
             <button type="submit" onclick=(send())>Wyślij</button>
         </form>

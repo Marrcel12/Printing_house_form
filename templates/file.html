@@ -24,10 +24,12 @@
             <h4>Wklej link z plikiem</h4>
             <input id="link" type="url" placeholder="Wklej link" value="" name="link">
             <hr>
-            <input type="checkbox" id="req" required name="req"><strong>(wymagane)</strong> jestem świadom jakości wysyłanego przeze mnie pliku i tego, że przez napisy i loga umieszczone w projekcie nie dalej jak 4cm od krawędzi mogą przejść szycia
-            <br>
-            <input id="project" type="checkbox" name="projekt">chcę, byście wykonali za mnie projekt (dodatkowo 200PLN)
-            <br>
+            <div id="textContainer">
+                <input type="checkbox" id="req" required name="req"><strong>(wymagane)</strong> jestem świadom jakości wysyłanego przeze mnie pliku i tego, że przez napisy i loga umieszczone w projekcie nie dalej jak 4cm od krawędzi mogą przejść szycia
+                <br>
+                <br>
+                <input id="project" type="checkbox" name="projekt">chcę, byście wykonali za mnie projekt (dodatkowo 200PLN)
+            </div>
             <button type="submit">Dalej</button>
         </form>
     </div>
@@ -71,6 +73,7 @@
                 }
             }
         }
+
     </script>
 </body>
 
