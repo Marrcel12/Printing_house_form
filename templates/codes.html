@@ -27,17 +27,20 @@
     </div>
     <script>
         var elementy = document.getElementsByClassName('listItem').length
-        window.onload = function() {
-            if (elementy == 1) {
-                document.getElementById('list').classList.add('list1')
-            } else if (elementy == 2) {
-                document.getElementById('list').classList.add('list2')
-            } else if (elementy == 3) {
-                document.getElementById('list').classList.add('list3')
-            } else if (elementy == 4) {
-                document.getElementById('list').classList.add('list4')
-            }
+       window.onload = function() {
+        if (elementy == 1) {
+            document.getElementById('list').classList.add('list1')
+        } else if (elementy == 2) {
+            document.getElementById('list').classList.add('list2')
+            document.getElementById('listContainer').style.maxWidth = '400px'
+        } else if (elementy == 3) {
+            document.getElementById('list').classList.add('list3')
+            document.getElementById('listContainer').style.maxWidth = '600px'
+        } else if (elementy == 4) {
+            document.getElementById('list').classList.add('list4')
+            document.getElementById('listContainer').style.maxWidth = '800px'
         }
+    }
 
     </script>
 
